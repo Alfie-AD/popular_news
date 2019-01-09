@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
+import 'package:clean_news_ai/src/blocs/news_bloc.dart';
 
 class ListItem extends StatefulWidget {
 
@@ -27,9 +28,9 @@ class ListItemState extends State<ListItem> {
 
   build(context) {
       return Container(
-          margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 14.0),
           child: GestureDetector(
               child: Card(
+                  margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
                   elevation: 8.0,
                   color: Colors.transparent,
                   child: ClipRRect(
@@ -57,16 +58,24 @@ class ListItemState extends State<ListItem> {
                                           onPressed: (){
                                             Share.share(widget.url);
                                           },
-                                          icon: Icon(Icons.share),
+                                          icon: Icon(Icons.share, color: Colors.green),
                                           color: Colors.white,
                                         ),
                                         IconButton(
                                           onPressed: (){
+                                            widget.liked ? bloc.deleteArticle(widget.url) : bloc.saveArticle(
+                                                {
+                                                  "name" : widget.name,
+                                                  "url" : widget.url,
+                                                  "title" : widget.title,
+                                                  "publishedAt" : widget.publishedAt,
+                                                  "urlToImage" : widget.urlToImage,
+                                                });
                                             setState(() {
                                               widget.liked = !widget.liked;
                                             });
                                           },
-                                          icon: widget.liked ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+                                          icon: widget.liked ? Icon(Icons.favorite, color: Colors.green) : Icon(Icons.favorite_border, color: Colors.green),
                                           color: Colors.white,
                                         ),
                                       ],

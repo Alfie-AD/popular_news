@@ -1,10 +1,8 @@
 import 'package:intl/intl.dart';
 class ItemModel {
-
   List<_Article> _articles = [];
 
   ItemModel.fromJson(Map<String, dynamic> parsedJson) {
-
     List<_Article> temp = [];
     for (int i = 0; i < parsedJson['articles'].length; i++) {
       _Article article = _Article(parsedJson['articles'][i]);
@@ -26,6 +24,7 @@ class _Article {
   String _urlToImage;
   String _publishedAt;
   String _content;
+  var liked;
 
   _Article(article) {
     _source = article["source"];
@@ -34,6 +33,7 @@ class _Article {
     _description = article["description"];
     _url = article["url"];
     _urlToImage = article["urlToImage"];
+    liked = false;
 
     DateFormat format = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
     final unformedDate = format.parse(article["publishedAt"]);
