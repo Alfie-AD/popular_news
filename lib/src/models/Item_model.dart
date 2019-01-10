@@ -24,7 +24,7 @@ class _Article {
   String _urlToImage;
   String _publishedAt;
   String _content;
-  var liked;
+  var liked = false;
 
   _Article(article) {
     _source = article["source"];

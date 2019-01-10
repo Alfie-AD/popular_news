@@ -1,66 +1,51 @@
 import 'package:flutter/material.dart';
 
-import 'package:clean_news_ai/src/blocs/news_bloc.dart';
+import 'package:clean_news_ai/src/blocs/saved_news_bloc.dart';
 import 'package:clean_news_ai/src/list_items/list_Item.dart';
 
 class LikedScreen extends StatefulWidget {
 
-  var articles = [];
   createState() => LikedScreenState();
 
 }
 
 class LikedScreenState extends State<LikedScreen> {
 
-  initState(){
-    super.initState();
-
-  }
-
   build(context) {
     bloc.fetchSavedNews();
-    bloc.allSavedNews.listen((snapshot){
-      setState(() {
-        widget.articles = snapshot;
-      });
-    });
-      return CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              forceElevated: true,
-              title: Text("Liked"),
-            ),
-            SliverList(
-                delegate: SliverChildListDelegate(
-                    widget.articles.map((article){
-                      return ListItem(
-                          article["name"],
-                          article["url"],
-                          true,
-                          article["title"],
-                          article["publishedAt"],
-                          article["urlToImage"]
-                      );
-                    }).toList()
-                )
-            )
-          ]
-      );
-    }
-
+    return StreamBuilder(
+      stream: bloc.allSavedNews,
+      builder: (context, snapshot) {
+        if(snapshot.hasData){
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                forceElevated: true,
+                title: Text("Liked"),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index){
+                  return ListItem(
+                    snapshot.data.values.toList()[index]["name"],
+                    snapshot.data.values.toList()[index]["url"],
+                    true,
+                    snapshot.data.values.toList()[index]["title"],
+                    snapshot.data.values.toList()[index]["publishedAt"],
+                    snapshot.data.values.toList()[index]["urlToImage"],
+                  );
+                },
+                    childCount: snapshot.data.length
+                ),
+              )
+            ],
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.green)
+          ),
+        );
+      },
+    );
+  }
 }
-
-
-
-
-//    StreamBuilder(
-//      stream: bloc.allNews,
-//      builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-//        if (snapshot.hasData) {
-//          return buildList(snapshot);
-//        } else if (snapshot.hasError) {
-//          return Text(snapshot.error.toString());
-//        }
-//        return Center(child: CircularProgressIndicator());
-//      },
-//    );

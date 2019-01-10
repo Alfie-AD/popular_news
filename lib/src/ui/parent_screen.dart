@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:clean_news_ai/src/ui/screens/popular_news.dart';
 import 'package:clean_news_ai/src/ui/screens/liked_screen.dart';
+import 'package:clean_news_ai/src/ui/screens/settings_screen.dart';
 import 'dart:ui';
 
 class ParentScreen extends StatefulWidget{
@@ -37,7 +38,6 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
           ),
           Tab(
             icon: Icon(Icons.settings, color: Colors.green),
-
           )
         ],
         controller: tabController,
@@ -60,6 +60,7 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
             getTabBarViews([
               FlutterNewsScreen(),
               LikedScreen(),
+              SettingsScreen()
             ]),
             Container(
               child: BackdropFilter(

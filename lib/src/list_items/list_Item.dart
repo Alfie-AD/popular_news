@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
-import 'package:clean_news_ai/src/blocs/news_bloc.dart';
+import 'package:clean_news_ai/src/blocs/saved_news_bloc.dart';
+import 'package:clean_news_ai/src/resources/repository.dart';
 
 class ListItem extends StatefulWidget {
 
@@ -63,6 +64,8 @@ class ListItemState extends State<ListItem> {
                                         ),
                                         IconButton(
                                           onPressed: (){
+                                            updateSavedNews();
+                                            mainArticles[widget.url].liked ? mainArticles[widget.url].liked = false : mainArticles[widget.url].liked = true;
                                             widget.liked ? bloc.deleteArticle(widget.url) : bloc.saveArticle(
                                                 {
                                                   "name" : widget.name,

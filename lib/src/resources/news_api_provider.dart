@@ -23,7 +23,11 @@ class NewsApiProvider {
     final _apiKey = _apikeys[Random().nextInt(8)];
     final response = await client.get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
     if (response.statusCode == 200) {
-      return ItemModel.fromJson(json.decode(response.body));
+      final mapArticles = {};
+      ItemModel.fromJson(json.decode(response.body)).articles.forEach((article){
+        mapArticles[article.url] = article;
+      });
+      return mapArticles;
     } else {
       getNews();
       throw Exception('Failed to load post');
@@ -32,8 +36,12 @@ class NewsApiProvider {
 
   getSavedNews() async {
     final uuid = await showMyID();
+    final mapSavedArticles = {};
     var articles = await Firestore.instance.collection("users").document(uuid).get();
-    return articles.data.values.toList();
+    articles.data.values.toList().forEach((value){
+      mapSavedArticles[value["url"]] = value;
+    });
+    return mapSavedArticles;
   }
 
   uploadMyArticle(holder) async{
