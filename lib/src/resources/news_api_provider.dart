@@ -20,8 +20,18 @@ class NewsApiProvider {
                     "99568112380744649303b6af7e87dea7"];
 
   getNews() async {
+    var response;
     final _apiKey = _apikeys[Random().nextInt(8)];
-    final response = await client.get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
+    final prefs = await SharedPreferences.getInstance();
+    final theme = prefs.getString('theme');
+    final lastRequest = prefs.getString('lastRequest');
+
+    if (theme != null && lastRequest == null){
+      response = await client.get("https://newsapi.org/v2/top-headlines?country=ru&category=$theme&apiKey=$_apiKey");
+    }else{
+      response = await client.get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&apiKey=$_apiKey");
+    }
+
     if (response.statusCode == 200) {
       final mapArticles = {};
       ItemModel.fromJson(json.decode(response.body)).articles.forEach((article){
@@ -68,5 +78,4 @@ class NewsApiProvider {
     final myid = Uuid().v4();
     await prefs.setString('id', myid);
   }
-
 }

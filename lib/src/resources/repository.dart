@@ -42,4 +42,9 @@ updateSavedNews() async {
   savedArticles = await newsApiProvider.getSavedNews();
 }
 
+clearMainNews() async {
+  final newsApiProvider = NewsApiProvider();
+  mainArticles = await newsApiProvider.getNews();
+}
+
 

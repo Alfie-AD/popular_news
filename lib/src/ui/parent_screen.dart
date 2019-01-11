@@ -34,7 +34,6 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
           ),
           Tab(
             icon: Icon(Icons.favorite_border, color: Colors.green),
-
           ),
           Tab(
             icon: Icon(Icons.settings, color: Colors.green),
