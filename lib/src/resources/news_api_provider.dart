@@ -22,9 +22,12 @@ class NewsApiProvider {
   getNews() async {
     var response;
     final _apiKey = _apikeys[Random().nextInt(8)];
+
     final prefs = await SharedPreferences.getInstance();
     final theme = prefs.getString('theme');
     final lastRequest = prefs.getString('lastRequest');
+    final uuid = await showMyID();
+    await Firestore.instance.collection("users").document(uuid).get();
 
     if (theme != null && lastRequest == null){
       response = await client.get("https://newsapi.org/v2/top-headlines?country=ru&category=$theme&apiKey=$_apiKey");
@@ -48,19 +51,22 @@ class NewsApiProvider {
     final uuid = await showMyID();
     final mapSavedArticles = {};
     var articles = await Firestore.instance.collection("users").document(uuid).get();
-    articles.data.values.toList().forEach((value){
-      mapSavedArticles[value["url"]] = value;
-    });
-    return mapSavedArticles;
+
+    if(articles.data != null){
+      articles.data.values.toList().forEach((value){
+        mapSavedArticles[value["url"]] = value;
+      });
+      return mapSavedArticles;
+    }
   }
 
-  uploadMyArticle(holder) async{
+  uploadMyArticle(holder) async {
     final key = holder["url"].toString().replaceAll("/", "").replaceAll(".", "");
     final uuid = await showMyID();
     Firestore.instance.collection("users").document(uuid).setData({key : holder}, merge: true);
   }
 
-  deleteMyArticle(url) async{
+  deleteMyArticle(url) async {
     final key = url.toString().replaceAll("/", "").replaceAll(".", "");
     final uuid = await showMyID();
     Firestore.instance.collection("users").document(uuid).updateData({key: FieldValue.delete()});
@@ -69,8 +75,7 @@ class NewsApiProvider {
   showMyID() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.getString('id') == null ? saveMyID() : null;
-    final checkedPrefs = await SharedPreferences.getInstance();
-    return checkedPrefs.getString('id');
+    return prefs.getString('id');
   }
 
   saveMyID() async {

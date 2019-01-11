@@ -65,7 +65,9 @@ class ListItemState extends State<ListItem> {
                                         IconButton(
                                           onPressed: (){
                                             updateSavedNews();
-                                            mainArticles[widget.url].liked ? mainArticles[widget.url].liked = false : mainArticles[widget.url].liked = true;
+                                            if(mainArticles.containsKey(widget.url)){
+                                              mainArticles[widget.url].liked ? mainArticles[widget.url].liked = false : mainArticles[widget.url].liked = true;
+                                            }
                                             widget.liked ? bloc.deleteArticle(widget.url) : bloc.saveArticle(
                                                 {
                                                   "name" : widget.name,
@@ -102,13 +104,15 @@ class ListItemState extends State<ListItem> {
                             ),
                           ],
                         ),
-                        decoration: BoxDecoration(
+                        decoration: widget.urlToImage != null ?  BoxDecoration(
                             color: Colors.black.withOpacity(0.5),
                             image: DecorationImage(
                               image: Image.network(widget.urlToImage).image,
                               colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.hardLight),
                               fit: BoxFit.cover,
                             )
+                        ) : BoxDecoration(
+                            color: Colors.black.withOpacity(0.5)
                         ),
                       )
                   )
@@ -116,7 +120,6 @@ class ListItemState extends State<ListItem> {
               onTap: () => launch(widget.url)
           )
       );
-
   }
 }
 

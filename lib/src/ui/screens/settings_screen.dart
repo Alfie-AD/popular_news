@@ -52,6 +52,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setString("theme", "science");
+              await prefs.setString("lastRequest", null);
               clearMainNews();
             },
           ),
@@ -63,6 +64,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setString("theme", "entertainment");
+              await prefs.setString("lastRequest", null);
               clearMainNews();
             },
           ),
@@ -74,6 +76,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setString("theme", "sport");
+              await prefs.setString("lastRequest", null);
               clearMainNews();
             },
           ),
@@ -85,6 +88,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setString("theme", "health");
+              await prefs.setString("lastRequest", null);
               clearMainNews();
             },
           ),
@@ -96,6 +100,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setString("theme", "technology");
+              await prefs.setString("lastRequest", null);
               clearMainNews();
             },
           ),
@@ -107,6 +112,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setString("theme", "general");
+              await prefs.setString("lastRequest", null);
               clearMainNews();
             },
           ),

@@ -11,7 +11,7 @@ class Repository {
     if(mainArticles == null){
       mainArticles = await newsApiProvider.getNews();
       savedArticles = await newsApiProvider.getSavedNews();
-      savedArticles.forEach((key, value){
+      savedArticles?.forEach((key, value){
         if(mainArticles.containsKey(key)){
           mainArticles[key].liked = true;
         }
@@ -43,8 +43,7 @@ updateSavedNews() async {
 }
 
 clearMainNews() async {
-  final newsApiProvider = NewsApiProvider();
-  mainArticles = await newsApiProvider.getNews();
+  mainArticles = null;
 }
 
 

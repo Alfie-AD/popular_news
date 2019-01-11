@@ -45,7 +45,7 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
     );
   }
 
-  getTabBarViews(var tabs){
+  getTabBarViews(tabs){
     return TabBarView(
       children: tabs,
       controller: tabController,
@@ -54,6 +54,7 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
 
   build(context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Stack(
           children: [
             getTabBarViews([
