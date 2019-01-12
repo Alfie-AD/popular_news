@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:clean_news_ai/src/resources/repository.dart';
+import 'package:tuple/tuple.dart';
 
 class SettingsScreen extends StatelessWidget {
+
+  final settingsItems = [
+    Tuple2("Business", Icons.attach_money),
+    Tuple2("Science", Icons.flare),
+    Tuple2("Entertainment", Icons.tag_faces),
+    Tuple2("Sport", Icons.directions_run),
+    Tuple2("Health", Icons.healing),
+    Tuple2("Technology", Icons.airplay),
+    Tuple2("General", Icons.star),
+  ];
 
   build(context) {
     return Scaffold(
@@ -32,92 +43,21 @@ class SettingsScreen extends StatelessWidget {
 
   _settingsWidgets(){
     return Column(
-      children: <Widget>[
-        Container(
-          child: ListTile(
-            leading: const Icon(Icons.attach_money),
-            title: const Text("Business"),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString("theme", "business");
-              await prefs.setString("lastRequest", null);
-              clearMainNews();
-            },
-          ),
-        ),
-        Container(
-          child: ListTile(
-            leading: const Icon(Icons.flare),
-            title: const Text("Science"),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString("theme", "science");
-              await prefs.setString("lastRequest", null);
-              clearMainNews();
-            },
-          ),
-        ),
-        Container(
-          child: ListTile(
-            leading: const Icon(Icons.tag_faces),
-            title: const Text("Entertainment"),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString("theme", "entertainment");
-              await prefs.setString("lastRequest", null);
-              clearMainNews();
-            },
-          ),
-        ),
-        Container(
-          child: ListTile(
-            leading: const Icon(Icons.directions_run),
-            title: const Text("Sport"),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString("theme", "sport");
-              await prefs.setString("lastRequest", null);
-              clearMainNews();
-            },
-          ),
-        ),
-        Container(
-          child: ListTile(
-            leading: const Icon(Icons.healing),
-            title: const Text("Health"),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString("theme", "health");
-              await prefs.setString("lastRequest", null);
-              clearMainNews();
-            },
-          ),
-        ),
-        Container(
-          child: ListTile(
-            leading: const Icon(Icons.airplay),
-            title: const Text("Technology"),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString("theme", "technology");
-              await prefs.setString("lastRequest", null);
-              clearMainNews();
-            },
-          ),
-        ),
-        Container(
-          child: ListTile(
-            leading: const Icon(Icons.star),
-            title: const Text("General"),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString("theme", "general");
-              await prefs.setString("lastRequest", null);
-              clearMainNews();
-            },
-          ),
-        ),
-      ],
+      children:
+       settingsItems.map((tuple){
+         return Container(
+            child: ListTile(
+              leading: Icon(tuple.item2),
+           title: Text(tuple.item1),
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setString("theme", tuple.item1.toLowerCase());
+                await prefs.setString("lastRequest", null);
+                clearMainNews();
+              },
+            ),
+         );
+       }).toList()
     );
   }
 }

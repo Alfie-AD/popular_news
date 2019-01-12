@@ -92,9 +92,7 @@ class FlutterNewsScreenState extends State<FlutterNewsScreen> {
                     clearMainNews();
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setString("lastRequest", text);
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                 ),
               )

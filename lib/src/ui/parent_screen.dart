@@ -13,6 +13,7 @@ class ParentScreen extends StatefulWidget{
 class ParentScreenState extends State<ParentScreen> with SingleTickerProviderStateMixin{
 
   TabController tabController;
+  
 
   initState(){
     super.initState();
@@ -25,7 +26,10 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
   }
 
   getTabBar(){
+    final bool iphonex = MediaQuery.of(context).size.height >= 812.0;
+    final double bottomPadding = iphonex ? 16.0 : 0.0;
     return Container(
+      padding: EdgeInsets.only(bottom: bottomPadding),
       color: Colors.black54,
       child: TabBar(
         tabs: <Tab>[
@@ -53,6 +57,7 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
   }
 
   build(context) {
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(
