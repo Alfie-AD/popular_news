@@ -32,19 +32,21 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
       padding: EdgeInsets.only(bottom: bottomPadding),
       color: Colors.black54,
       child: TabBar(
+        unselectedLabelColor: Colors.white,
+        labelColor: Colors.green,
         tabs: <Tab>[
           Tab(
-            icon: Icon(Icons.whatshot, color: Colors.green),
+            icon: Icon(Icons.whatshot),
           ),
           Tab(
-            icon: Icon(Icons.favorite_border, color: Colors.green),
+            icon: Icon(Icons.favorite_border),
           ),
           Tab(
-            icon: Icon(Icons.settings, color: Colors.green),
+            icon: Icon(Icons.settings),
           )
         ],
         controller: tabController,
-        indicatorColor: Colors.green,
+        indicatorColor: Colors.transparent,
       ),
     );
   }
