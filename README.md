@@ -2,6 +2,8 @@
 
 A new Flutter application.
 
+Google Play: https://play.google.com/store/apps/details?id=com.renesanse.cleannewsai
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
