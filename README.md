@@ -2,7 +2,7 @@
 
 A new Flutter application.
 
-Play market: https://play.google.com/store/apps/details?id=com.renesanse.cleannewsai
+Google Play: https://play.google.com/store/apps/details?id=com.renesanse.cleannewsai
 
 ## Getting Started
 
