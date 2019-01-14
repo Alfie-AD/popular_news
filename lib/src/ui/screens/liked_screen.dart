@@ -23,6 +23,11 @@ class LikedScreen extends StatelessWidget {
                     return SliverToBoxAdapter();
                   }
                 },
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  height: 80,
+                ),
               )
             ])
     );

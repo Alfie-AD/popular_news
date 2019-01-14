@@ -3,7 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:clean_news_ai/src/resources/repository.dart';
 import 'package:tuple/tuple.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+
+  createState() => SettingsState();
+
+}
+
+class SettingsState extends State<SettingsScreen>{
+
+  var selectedTheme = "";
 
   final settingsItems = [
     Tuple2("Business", Icons.attach_money),
@@ -16,6 +24,7 @@ class SettingsScreen extends StatelessWidget {
   ];
 
   build(context) {
+    _check();
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
@@ -27,10 +36,9 @@ class SettingsScreen extends StatelessWidget {
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Select theme:",
+                "Selected theme: ${selectedTheme.toUpperCase()}",
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.green,
                 ),
               ),
             ),
@@ -41,14 +49,15 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  _settingsWidgets(){
+  _settingsWidgets() {
     return Column(
-      children:
-       settingsItems.map((tuple){
-         return Container(
+        children: settingsItems.map((tuple){
+          return Container(
             child: ListTile(
-              leading: Icon(tuple.item2),
-           title: Text(tuple.item1),
+              leading: Icon(tuple.item2, color: Colors.green),
+              title: Text(
+                tuple.item1,
+              ),
               onTap: () async {
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setString("theme", tuple.item1.toLowerCase());
@@ -56,9 +65,16 @@ class SettingsScreen extends StatelessWidget {
                 clearMainNews();
               },
             ),
-         );
-       }).toList()
+          );
+        }).toList()
     );
+  }
+
+  _check() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedTheme = prefs.getString("theme");
+    });
   }
 }
 

@@ -12,15 +12,16 @@ class FlutterNewsScreen extends StatefulWidget {
 }
 
 class FlutterNewsScreenState extends State<FlutterNewsScreen> {
-
+  
   build(context) {
     bloc.fetchAllNews();
     return Scaffold(
         body: CustomScrollView(
             slivers: [
               SliverAppBar(
-                  forceElevated: true,
-                  title: Text("News"),
+                centerTitle: true,
+                forceElevated: true,
+                title: Text("News"),
               ),
               _buildSearchBar(),
               StreamBuilder(
@@ -42,6 +43,11 @@ class FlutterNewsScreenState extends State<FlutterNewsScreen> {
                     );
                   }
                 },
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  height: 80,
+                ),
               )
         ])
     );
