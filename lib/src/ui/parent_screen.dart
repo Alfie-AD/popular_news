@@ -13,7 +13,6 @@ class ParentScreen extends StatefulWidget{
 class ParentScreenState extends State<ParentScreen> with SingleTickerProviderStateMixin{
 
   TabController tabController;
-  
 
   initState(){
     super.initState();

@@ -30,7 +30,7 @@ class NewsApiProvider {
     await Firestore.instance.collection("users").document(uuid).get();
 
     if (theme != null && lastRequest == null){
-      response = await client.get("https://newsapi.org/v2/top-headlines?country=ru&category=$theme&apiKey=$_apiKey");
+      response = await client.get("https://newsapi.org/v2/top-headlines?country=us&category=$theme&apiKey=$_apiKey");
     }else{
       response = await client.get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&apiKey=$_apiKey");
     }
@@ -51,9 +51,9 @@ class NewsApiProvider {
     final uuid = await showMyID();
     final mapSavedArticles = {};
     var articles = await Firestore.instance.collection("users").document(uuid).get();
-
     if(articles.data != null){
       articles.data.values.toList().forEach((value){
+        value["animated"] = false;
         mapSavedArticles[value["url"]] = value;
       });
       return mapSavedArticles;

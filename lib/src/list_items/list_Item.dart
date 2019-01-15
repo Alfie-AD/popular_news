@@ -4,8 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
 import 'package:clean_news_ai/src/blocs/saved_news_bloc.dart';
 import 'package:clean_news_ai/src/resources/repository.dart';
-import 'package:transparent_image/transparent_image.dart';
-
 
 class ListItem extends StatefulWidget {
 
@@ -15,6 +13,7 @@ class ListItem extends StatefulWidget {
   final title;
   final publishedAt;
   final urlToImage;
+  final animated ;
 
   ListItem(
       this.name,
@@ -22,7 +21,8 @@ class ListItem extends StatefulWidget {
       this.liked,
       this.title,
       this.publishedAt,
-      this.urlToImage);
+      this.urlToImage,
+      this.animated);
 
   createState() => ListItemState();
 
@@ -30,13 +30,18 @@ class ListItem extends StatefulWidget {
 
 class ListItemState extends State<ListItem> with TickerProviderStateMixin {
 
-  var colorAnimation;
-  var colorAnimationController;
-
+  Animation colorAnimation;
+  AnimationController colorAnimationController;
 
   initState(){
-    colorAnimationController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
+    colorAnimationController = AnimationController(duration: const Duration(milliseconds: 700), vsync: this);
     colorAnimation = Tween(begin: 1.0, end: 0.5).animate(colorAnimationController);
+    mainArticles[widget.url]?.animated = true;
+
+    if(savedArticles.isNotEmpty && savedArticles[widget.url] != null){
+      savedArticles[widget.url]["animated"] = true;
+    }
+
     super.initState();
   }
 
@@ -46,10 +51,18 @@ class ListItemState extends State<ListItem> with TickerProviderStateMixin {
   }
 
   build(context) {
+    var image;
+
+    if(widget.urlToImage != null){
+      image = Image.network(widget.urlToImage).image;
+    }
+    image.resolve(ImageConfiguration()).addListener((ImageInfo imageInfo, bool synchronousCall){
+      colorAnimationController.forward();
+    });
+
       return AnimatedBuilder(
           animation: colorAnimation,
           builder: (context,_){
-            colorAnimationController.forward();
             return Container(
                 child: GestureDetector(
                     child: Card(
@@ -127,16 +140,18 @@ class ListItemState extends State<ListItem> with TickerProviderStateMixin {
                                   ),
                                 ],
                               ),
-
                               decoration: widget.urlToImage != null ?  BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5),
+                                  color: Colors.black54,
                                   image: DecorationImage(
-                                    image: Image.network(widget.urlToImage).image,
-                                    colorFilter: ColorFilter.mode(Colors.black54.withOpacity(colorAnimation.value), BlendMode.hardLight),
+                                    image: image,
+                                    colorFilter: ColorFilter.mode(
+                                        Colors.black54.withOpacity(
+                                          widget.animated ? 0.5 : colorAnimation.value),
+                                        BlendMode.hardLight),
                                     fit: BoxFit.cover,
                                   )
                               ) : BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5)
+                                  color: Colors.black54
                               ),
                             )
                         )

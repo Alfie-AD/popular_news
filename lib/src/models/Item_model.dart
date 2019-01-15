@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+
 class ItemModel {
   List<_Article> _articles = [];
 
@@ -25,6 +26,7 @@ class _Article {
   String _publishedAt;
   String _content;
   var liked = false;
+  var animated = false;
 
   _Article(article) {
     _source = article["source"];
@@ -33,12 +35,9 @@ class _Article {
     _description = article["description"];
     _url = article["url"];
     _urlToImage = article["urlToImage"];
-    liked = false;
-
     DateFormat format = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
     final unformedDate = format.parse(article["publishedAt"]);
     _publishedAt = "${unformedDate.day}/${unformedDate.month}/${unformedDate.year}";
-    
     _content = article["content"];
   }
 

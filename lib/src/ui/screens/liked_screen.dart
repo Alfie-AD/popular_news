@@ -37,12 +37,13 @@ class LikedScreen extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate((context, index){
         return ListItem(
-          values.toList()[index]["name"],
-          values.toList()[index]["url"],
-          true,
-          values.toList()[index]["title"],
-          values.toList()[index]["publishedAt"],
-          values.toList()[index]["urlToImage"],
+            values[index]["name"],
+            values[index]["url"],
+            true,
+            values[index]["title"],
+            values[index]["publishedAt"],
+            values[index]["urlToImage"],
+            values[index]["animated"]
         );
       },
           childCount: values.length

@@ -36,7 +36,7 @@ class SettingsState extends State<SettingsScreen>{
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Selected theme: ${selectedTheme.toUpperCase()}",
+                "Selected theme: ${selectedTheme?.toUpperCase()}",
                 style: TextStyle(
                   fontSize: 20,
                 ),
