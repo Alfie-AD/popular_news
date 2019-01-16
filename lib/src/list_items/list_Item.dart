@@ -55,11 +55,10 @@ class ListItemState extends State<ListItem> with TickerProviderStateMixin {
 
     if(widget.urlToImage != null){
       image = Image.network(widget.urlToImage).image;
+      image.resolve(ImageConfiguration()).addListener((ImageInfo imageInfo, bool synchronousCall){
+        colorAnimationController.forward();
+      });
     }
-    image.resolve(ImageConfiguration()).addListener((ImageInfo imageInfo, bool synchronousCall){
-      colorAnimationController.forward();
-    });
-
       return AnimatedBuilder(
           animation: colorAnimation,
           builder: (context,_){

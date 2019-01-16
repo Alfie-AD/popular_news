@@ -2,7 +2,6 @@
 import '../resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class SavedNewsBloc{
   final _repository = Repository();
   final _savedNewsFetcher = PublishSubject<Map>();
