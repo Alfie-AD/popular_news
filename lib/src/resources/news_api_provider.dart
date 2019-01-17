@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 class NewsApiProvider {
+
   final client = Client();
   final _apikeys = ["4a9de7c7c1744832aef0285f0cc75bc9",
                     "a678b44ee60b4f749f73bed294392a4c",
@@ -21,17 +22,17 @@ class NewsApiProvider {
 
   getNews() async {
     var response;
-    final _apiKey = _apikeys[Random().nextInt(8)];
 
     final prefs = await SharedPreferences.getInstance();
+    final _apiKey = _apikeys[Random().nextInt(8)];
     final theme = prefs.getString('theme');
     final lastRequest = prefs.getString('lastRequest');
-    final uuid = await showMyID();
-    await Firestore.instance.collection("users").document(uuid).get();
 
-    if (theme != null && lastRequest == null){
+    if (theme == null && lastRequest == null){
+      response = await client.get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
+    }else if (theme != null && lastRequest == null){
       response = await client.get("https://newsapi.org/v2/top-headlines?country=us&category=$theme&apiKey=$_apiKey");
-    }else{
+    }else {
       response = await client.get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&apiKey=$_apiKey");
     }
 
@@ -81,6 +82,7 @@ class NewsApiProvider {
   saveMyID() async {
     final prefs = await SharedPreferences.getInstance();
     final myid = Uuid().v4();
+    await Firestore.instance.collection("users").document(myid).get();
     await prefs.setString('id', myid);
   }
 }

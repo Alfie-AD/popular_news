@@ -10,18 +10,41 @@ class ParentScreen extends StatefulWidget{
 
 }
 
-class ParentScreenState extends State<ParentScreen> with SingleTickerProviderStateMixin{
+class ParentScreenState extends State<ParentScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver{
 
   TabController tabController;
 
   initState(){
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     tabController = TabController(length: 3, vsync: this);
   }
 
-  void dispose() {
+  dispose() {
     tabController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+ build(context) {
+      return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: Stack(
+            children: [
+              getTabBarViews([
+                FlutterNewsScreen(),
+                LikedScreen(),
+                SettingsScreen()
+              ]),
+              Container(
+                child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaY: 10.0, sigmaX: 10.0),
+                    child: getTabBar()),
+                alignment: AlignmentDirectional.bottomEnd,
+              )
+            ]
+        ),
+      );
   }
 
   getTabBar(){
@@ -57,25 +80,4 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
     );
   }
 
-  build(context) {
-
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Stack(
-          children: [
-            getTabBarViews([
-              FlutterNewsScreen(),
-              LikedScreen(),
-              SettingsScreen()
-            ]),
-            Container(
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaY: 10.0, sigmaX: 10.0),
-                  child: getTabBar()),
-              alignment: AlignmentDirectional.bottomEnd,
-            )
-          ]
-      ),
-    );
-  }
 }

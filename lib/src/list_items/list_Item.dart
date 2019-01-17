@@ -38,10 +38,9 @@ class ListItemState extends State<ListItem> with TickerProviderStateMixin {
     colorAnimation = Tween(begin: 1.0, end: 0.5).animate(colorAnimationController);
     mainArticles[widget.url]?.animated = true;
 
-    if(savedArticles.isNotEmpty && savedArticles[widget.url] != null){
+    if(savedArticles != null && savedArticles[widget.url] != null){
       savedArticles[widget.url]["animated"] = true;
     }
-
     super.initState();
   }
 
@@ -51,8 +50,8 @@ class ListItemState extends State<ListItem> with TickerProviderStateMixin {
   }
 
   build(context) {
-    var image;
 
+    var image;
     if(widget.urlToImage != null){
       image = Image.network(widget.urlToImage).image;
       image.resolve(ImageConfiguration()).addListener((ImageInfo imageInfo, bool synchronousCall){

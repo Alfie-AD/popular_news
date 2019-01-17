@@ -19,7 +19,6 @@ class FlutterNewsScreenState extends State<FlutterNewsScreen> {
         body: CustomScrollView(
             slivers: [
               SliverAppBar(
-                centerTitle: true,
                 forceElevated: true,
                 title: Text("News"),
               ),
@@ -96,7 +95,7 @@ class FlutterNewsScreenState extends State<FlutterNewsScreen> {
                   style: TextStyle(fontSize: 18, color: Colors.black54),
                   controller: TextEditingController(),
                   onSubmitted: (text) async {
-                    clearMainNews();
+                    mainArticles.clear();
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setString("lastRequest", text);
                     setState(() {});

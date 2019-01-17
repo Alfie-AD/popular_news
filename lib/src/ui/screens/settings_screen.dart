@@ -11,7 +11,7 @@ class SettingsScreen extends StatefulWidget {
 
 class SettingsState extends State<SettingsScreen>{
 
-  var selectedTheme = "";
+  String selectedTheme;
 
   final settingsItems = [
     Tuple2("Business", Icons.attach_money),
@@ -36,7 +36,7 @@ class SettingsState extends State<SettingsScreen>{
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Selected theme: ${selectedTheme?.toUpperCase()}",
+                "Selected theme: $selectedTheme",
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -62,7 +62,7 @@ class SettingsState extends State<SettingsScreen>{
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setString("theme", tuple.item1.toLowerCase());
                 await prefs.setString("lastRequest", null);
-                clearMainNews();
+                mainArticles.clear();
               },
             ),
           );
@@ -73,7 +73,7 @@ class SettingsState extends State<SettingsScreen>{
   _check() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      selectedTheme = prefs.getString("theme");
+      selectedTheme = prefs.getString("theme") ?? "nothing";
     });
   }
 }

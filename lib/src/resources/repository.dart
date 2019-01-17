@@ -1,16 +1,24 @@
 import 'news_api_provider.dart';
 
-Map mainArticles ;
-Map savedArticles ;
+Map mainArticles = {};
+Map savedArticles = {};
 
 class Repository {
 
   final newsApiProvider = NewsApiProvider();
 
   getNews() async {
-    if(mainArticles == null){
+    if(mainArticles.isEmpty && savedArticles.isEmpty){
       mainArticles = await newsApiProvider.getNews();
       savedArticles = await newsApiProvider.getSavedNews();
+      savedArticles?.forEach((key, value){
+        if(mainArticles.containsKey(key)){
+          mainArticles[key].liked = true;
+        }
+      });
+      return mainArticles;
+    }else if (mainArticles.isEmpty){
+      mainArticles = await newsApiProvider.getNews();
       savedArticles?.forEach((key, value){
         if(mainArticles.containsKey(key)){
           mainArticles[key].liked = true;
@@ -23,12 +31,7 @@ class Repository {
   }
 
   getSavedNews() async {
-    if(savedArticles == null){
-      savedArticles = await newsApiProvider.getSavedNews();
-      return savedArticles;
-    }else{
-      return savedArticles;
-    }
+    return savedArticles;
   }
 
   saveArticle(holder) => newsApiProvider.uploadMyArticle(holder);
@@ -42,8 +45,5 @@ updateSavedNews() async {
   savedArticles = await newsApiProvider.getSavedNews();
 }
 
-clearMainNews() async {
-  mainArticles = null;
-}
 
 

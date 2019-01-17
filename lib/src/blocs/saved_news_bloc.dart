@@ -21,6 +21,10 @@ class SavedNewsBloc{
     _repository.deleteArticle(url);
   }
 
+  dispose() {
+    _savedNewsFetcher.close();
+  }
+
 }
 
 final bloc = SavedNewsBloc();
