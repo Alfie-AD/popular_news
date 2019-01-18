@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
-import 'package:clean_news_ai/src/blocs/saved_news_bloc.dart';
 import 'package:clean_news_ai/src/resources/repository.dart';
+import 'package:clean_news_ai/src/blocs/news_bloc.dart';
 
 class ListItem extends StatefulWidget {
 

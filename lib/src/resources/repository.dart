@@ -1,14 +1,11 @@
 import 'news_api_provider.dart';
 
-Map mainArticles = {};
-Map savedArticles = {};
-
 class Repository {
 
   final newsApiProvider = NewsApiProvider();
 
   getNews() async {
-    if(mainArticles.isEmpty && savedArticles.isEmpty){
+    if(mainArticles.isEmpty && savedArticles == null){
       mainArticles = await newsApiProvider.getNews();
       savedArticles = await newsApiProvider.getSavedNews();
       savedArticles?.forEach((key, value){
@@ -45,5 +42,6 @@ updateSavedNews() async {
   savedArticles = await newsApiProvider.getSavedNews();
 }
 
-
+Map mainArticles = {};
+Map savedArticles = {};
 
