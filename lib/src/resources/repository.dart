@@ -5,7 +5,8 @@ class Repository {
   final newsApiProvider = NewsApiProvider();
 
   getNews() async {
-    if(mainArticles.isEmpty && savedArticles == null){
+
+    if(mainArticles.isEmpty && savedArticles.isEmpty){
       mainArticles = await newsApiProvider.getNews();
       savedArticles = await newsApiProvider.getSavedNews();
       savedArticles?.forEach((key, value){

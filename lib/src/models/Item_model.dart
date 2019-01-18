@@ -1,22 +1,22 @@
 import 'package:intl/intl.dart';
 
 class ItemModel {
-  List<_Article> _articles = [];
+  List<Article> _articles = [];
 
   ItemModel.fromJson(Map<String, dynamic> parsedJson) {
-    List<_Article> temp = [];
+    List<Article> temp = [];
     for (int i = 0; i < parsedJson['articles'].length; i++) {
-      _Article article = _Article(parsedJson['articles'][i]);
+      Article article = Article(parsedJson['articles'][i]);
       temp.add(article);
     }
     _articles = temp;
   }
 
-  List<_Article> get articles => _articles;
+  List<Article> get articles => _articles;
 
 }
 
-class _Article {
+class Article {
   Map _source;
   String _author;
   String _title;
@@ -28,7 +28,7 @@ class _Article {
   var liked = false;
   var animated = false;
 
-  _Article(article) {
+  Article(article) {
     _source = article["source"];
     _author = article["author"];
     _title = article["title"];
@@ -39,6 +39,18 @@ class _Article {
     final unformedDate = format.parse(article["publishedAt"]);
     _publishedAt = "${unformedDate.day}/${unformedDate.month}/${unformedDate.year}";
     _content = article["content"];
+  }
+
+  Article.fromMap(map) {
+    _source = { "name" : map["name"]};
+    _author = "nothing";
+    _title = map["title"];
+    _description = "nothing";
+    _url = map["url"];
+    _urlToImage = map["urlToImage"];
+    _publishedAt = map["publishedAt"];
+    _content = "nothing";
+    liked = true;
   }
 
   Map get source => _source;

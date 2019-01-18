@@ -39,7 +39,7 @@ class ListItemState extends State<ListItem> with TickerProviderStateMixin {
     mainArticles[widget.url]?.animated = true;
 
     if(savedArticles != null && savedArticles[widget.url] != null){
-      savedArticles[widget.url]["animated"] = true;
+      savedArticles[widget.url]?.animated = true;
     }
     super.initState();
   }

@@ -54,8 +54,8 @@ class NewsApiProvider {
     var articles = await Firestore.instance.collection("users").document(uuid).get();
     if(articles.data != null){
       articles.data.values.toList().forEach((value){
-        value["animated"] = false;
-        mapSavedArticles[value["url"]] = value;
+        var article = Article.fromMap(value);
+        mapSavedArticles[article.url] = article;
       });
       return mapSavedArticles;
     }

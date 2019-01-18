@@ -1,52 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:clean_news_ai/src/list_items/list_Item.dart';
 import 'package:clean_news_ai/src/blocs/news_bloc.dart';
+import 'package:clean_news_ai/src/ui/views/app_bar.dart';
+import 'package:clean_news_ai/src/ui/views/stream_builder.dart';
+import 'package:clean_news_ai/src/ui/views/empty_box.dart';
 
-class LikedScreen extends StatelessWidget {
+class LikedScreen extends StatefulWidget {
+
+  createState () => LikedScreenState();
+
+}
+
+class LikedScreenState extends State<LikedScreen> {
 
   build(context) {
     bloc.fetchSavedNews();
     return Scaffold(
         body: CustomScrollView(
             slivers: [
-              SliverAppBar(
-                forceElevated: true,
-                title: Text("Liked"),
-              ),
-              StreamBuilder(
-                stream: bloc.allSavedNews,
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    return _buildList(snapshot.data.values.toList());
-                  }else{
-                    return SliverToBoxAdapter();
-                  }
-                },
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  height: 80,
-                ),
-              )
-            ])
-    );
-  }
-
-  _buildList(values){
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index){
-        return ListItem(
-            values[index]["name"],
-            values[index]["url"],
-            true,
-            values[index]["title"],
-            values[index]["publishedAt"],
-            values[index]["urlToImage"],
-            values[index]["animated"]
-        );
-      },
-          childCount: values.length
-      ),
+              appBar("Liked"),
+              streamBuilder(bloc.savedNews),
+              emptyBox()
+            ]
+        )
     );
   }
 }
