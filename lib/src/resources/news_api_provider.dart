@@ -19,14 +19,13 @@ class NewsApiProvider {
                     "c76c51820b88496ea4481dde3794682b",
                     "91b1adf498204257b9207a82cbcbad36",
                     "99568112380744649303b6af7e87dea7"];
+  final prefs = SharedPreferences.getInstance();
 
   getNews() async {
     var response;
-
-    final prefs = await SharedPreferences.getInstance();
     final _apiKey = _apikeys[Random().nextInt(8)];
-    final theme = prefs.getString('theme');
-    final lastRequest = prefs.getString('lastRequest');
+    final theme = (await prefs).getString('theme');
+    final lastRequest = (await prefs).getString('lastRequest');
 
     if (theme == null && lastRequest == null){
       response = await client.get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
@@ -57,8 +56,8 @@ class NewsApiProvider {
         var article = Article.fromMap(value);
         mapSavedArticles[article.url] = article;
       });
-      return mapSavedArticles;
     }
+    return mapSavedArticles;
   }
 
   uploadMyArticle(holder) async {
@@ -74,15 +73,14 @@ class NewsApiProvider {
   }
 
   showMyID() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.getString('id') == null ? saveMyID() : null;
-    return prefs.getString('id');
+    (await prefs).getString('id') ?? saveMyID();
+    return (await prefs).getString('id');
   }
 
   saveMyID() async {
-    final prefs = await SharedPreferences.getInstance();
     final myid = Uuid().v4();
     await Firestore.instance.collection("users").document(myid).get();
-    await prefs.setString('id', myid);
+    await (await prefs).setString('id', myid);
   }
+
 }

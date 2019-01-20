@@ -7,7 +7,7 @@ class Repository {
   getNews() async {
     if(mainArticles.isEmpty && savedArticles.isEmpty){
       mainArticles = await newsApiProvider.getNews();
-      savedArticles = await newsApiProvider.getSavedNews() ?? {};
+      savedArticles = await newsApiProvider.getSavedNews();
       savedArticles.forEach((key, value){
         if(mainArticles.containsKey(key)){
           mainArticles[key].liked = true;
