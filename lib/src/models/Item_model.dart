@@ -51,6 +51,7 @@ class Article {
     _publishedAt = map["publishedAt"];
     _content = "nothing";
     liked = true;
+    animated = true;
   }
 
   Map get source => _source;

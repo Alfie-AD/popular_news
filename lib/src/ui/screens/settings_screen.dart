@@ -30,19 +30,10 @@ class SettingsState extends State<SettingsScreen>{
         title: Text("Settings"),
       ),
       body: Container(
-        padding: EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Selected theme: $selectedTheme",
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            _settingsWidgets()
+            _settingsWidgets(),
+            Divider()
           ],
         ),
       ),
@@ -53,17 +44,23 @@ class SettingsState extends State<SettingsScreen>{
     return Column(
         children: settingsItems.map((tuple){
           return Container(
-            child: ListTile(
-              leading: Icon(tuple.item2, color: Colors.green),
+            child: RadioListTile(
+                value: tuple.item1,
+                activeColor: Colors.green,
+                groupValue: selectedTheme,
+                onChanged: (value) async {
+                  selectedTheme = tuple.item1;
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString("theme", value.toLowerCase());
+                  await prefs.setString("lastRequest", null);
+                  mainArticles.clear();
+                  savedArticles.clear();
+                  setState(() {});
+                },
+             secondary: Icon(tuple.item2, color: Colors.green),
               title: Text(
                 tuple.item1,
               ),
-              onTap: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.setString("theme", tuple.item1.toLowerCase());
-                await prefs.setString("lastRequest", null);
-                mainArticles.clear();
-              },
             ),
           );
         }).toList()
@@ -72,9 +69,11 @@ class SettingsState extends State<SettingsScreen>{
 
   _check() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      selectedTheme = prefs.getString("theme") ?? "nothing";
-    });
+    if(prefs.getString("theme") != null){
+      setState(() {
+        selectedTheme = prefs.getString("theme")[0].toUpperCase() + prefs.getString("theme").substring(1);
+      });
+    }
   }
 }
 
