@@ -12,6 +12,8 @@ class SettingsScreen extends StatefulWidget {
 class SettingsState extends State<SettingsScreen>{
 
   String selectedTheme;
+  String selectedLanguage;
+  final prefs = SharedPreferences.getInstance();
 
   final settingsItems = [
     Tuple2("Business", Icons.attach_money),
@@ -23,8 +25,12 @@ class SettingsState extends State<SettingsScreen>{
     Tuple2("General", Icons.star),
   ];
 
-  build(context) {
+  initState(){
     _check();
+    super.initState();
+  }
+
+  build(context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
@@ -33,7 +39,8 @@ class SettingsState extends State<SettingsScreen>{
         child: Column(
           children: <Widget>[
             _settingsWidgets(),
-            Divider()
+            Divider(),
+            _languageSelect()
           ],
         ),
       ),
@@ -50,9 +57,8 @@ class SettingsState extends State<SettingsScreen>{
                 groupValue: selectedTheme,
                 onChanged: (value) async {
                   selectedTheme = tuple.item1;
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString("theme", value.toLowerCase());
-                  await prefs.setString("lastRequest", null);
+                  (await prefs).setString("theme", value.toLowerCase());
+                  (await prefs).setString("lastRequest", null);
                   mainArticles.clear();
                   savedArticles.clear();
                   setState(() {});
@@ -67,12 +73,58 @@ class SettingsState extends State<SettingsScreen>{
     );
   }
 
+  _languageSelect(){
+    return Column(
+        children: [
+          Container(
+            child: RadioListTile(
+              value: "ru",
+              activeColor: Colors.green,
+              groupValue: selectedLanguage,
+              onChanged: (value) async {
+                selectedLanguage = "ru";
+                (await prefs).setString("lang", value);
+                mainArticles.clear();
+                savedArticles.clear();
+                setState(() {});
+              },
+              title: Text(
+                "Russian",
+              ),
+            ),
+          ),
+          Container(
+            child: RadioListTile(
+              value: "en",
+              activeColor: Colors.green,
+              groupValue: selectedLanguage,
+              onChanged: (value) async {
+                selectedLanguage = "en";
+                (await prefs).setString("lang", value);
+                mainArticles.clear();
+                savedArticles.clear();
+                setState(() {});
+              },
+              title: Text(
+                "English",
+              ),
+            ),
+          )
+        ]
+    );
+  }
+
   _check() async {
-    final prefs = await SharedPreferences.getInstance();
-    if(prefs.getString("theme") != null){
-      setState(() {
-        selectedTheme = prefs.getString("theme")[0].toUpperCase() + prefs.getString("theme").substring(1);
-      });
+    if((await prefs).getString("theme") != null){
+      selectedTheme = (await prefs).getString("theme")[0].toUpperCase() + (await prefs).getString("theme").substring(1);
+      setState(() {});
+    }
+    if((await prefs).getString("lang") != null){
+      selectedLanguage = (await prefs).getString("lang");
+      setState(() {});
+    }else{
+      selectedLanguage = "en";
+      setState(() {});
     }
   }
 }

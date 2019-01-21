@@ -30,9 +30,12 @@ class NewsApiProvider {
     if (theme == null && lastRequest == null){
       response = await client.get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
     }else if (theme != null && lastRequest == null){
-      response = await client.get("https://newsapi.org/v2/top-headlines?country=us&category=$theme&apiKey=$_apiKey");
+      var country = (await prefs).getString('lang') ?? "us";
+      country == "en" ? country = "us" : country = "ru";
+      response = await client.get("https://newsapi.org/v2/top-headlines?country=$country&category=$theme&apiKey=$_apiKey");
     }else {
-      response = await client.get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&language=en&apiKey=$_apiKey");
+      final lang = (await prefs).getString('lang') ?? "en";
+      response = await client.get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&language=$lang&apiKey=$_apiKey");
     }
 
     if (response.statusCode == 200) {
