@@ -1,4 +1,4 @@
-src/resources/keys.dart
+package:clean_news_ai/src/resources/keys.dart
 
 
 # Miscellaneous
