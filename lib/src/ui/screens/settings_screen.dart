@@ -74,6 +74,7 @@ class SettingsState extends State<SettingsScreen>{
   }
 
   _languageSelect(){
+    // dont repeat your self
     return Column(
         children: [
           Container(

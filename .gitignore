@@ -19,6 +19,8 @@
 # Visual Studio Code related
 .vscode/
 
+clean_news_ai/src/resources/keys.dart
+
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
