@@ -15,7 +15,7 @@ class NewsApiProvider {
 
   getNews() async {
     var response;
-    final _apiKey = apikeys[Random().nextInt(2)];
+    final _apiKey = apikeys[Random().nextInt(4)];
     final theme = (await prefs).getString('theme');
     final lastRequest = (await prefs).getString('lastRequest');
 
@@ -37,7 +37,6 @@ class NewsApiProvider {
       });
       return mapArticles;
     } else {
-      getNews();
       throw Exception('Failed to load post');
     }
   }

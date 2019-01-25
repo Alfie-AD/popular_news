@@ -15,10 +15,11 @@ class LikedScreenState extends State<LikedScreen> {
   build(context) {
     bloc.fetchSavedNews();
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: CustomScrollView(
             slivers: [
               appBar("Liked"),
-              streamBuilder(bloc.savedNews),
+              streamBuilder(bloc.saved),
               emptyBox()
             ]
         )

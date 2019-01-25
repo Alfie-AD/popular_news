@@ -32,6 +32,7 @@ dependencies:
   uuid: ^1.0.3
   shared_preferences: ^0.4.3
   tuple: ^1.0.2
+  rxdart: ^0.20.0
 
 dev_dependencies:
   flutter_test:

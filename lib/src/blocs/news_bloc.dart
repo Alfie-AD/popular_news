@@ -1,17 +1,19 @@
 import '../resources/repository.dart';
+import 'dart:async';
 
 class NewsBloc {
   final _repository = Repository();
-
-  Stream news;
-  Stream savedNews;
+  var _controllerNews = StreamController.broadcast();
+  var _controllerSaved = StreamController.broadcast();
+  get news => _controllerNews.stream;
+  get saved => _controllerSaved.stream;
 
   fetchAllNews() async {
-    news = Stream.fromFuture(_repository.getNews());
+    _controllerNews.add(await _repository.getNews());
   }
 
   fetchSavedNews() async {
-    savedNews = Stream.fromFuture(_repository.getSavedNews());
+    _controllerSaved.add(await _repository.getSavedNews());
   }
 
   saveArticle(holder) async {
@@ -21,6 +23,7 @@ class NewsBloc {
   deleteArticle(url) async {
     _repository.deleteArticle(url);
   }
+
 }
 
 final bloc = NewsBloc();

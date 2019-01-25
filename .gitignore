@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package:clean_news_ai/src/resources/keys.dart
+=======
+lib/src/resources/keys.dart
+>>>>>>> 7d78cff447705bb4ed1b47a24b1b501426948f6f
 
 
 # Miscellaneous

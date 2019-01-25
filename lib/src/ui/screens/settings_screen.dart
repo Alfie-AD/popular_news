@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:clean_news_ai/src/resources/repository.dart';
 import 'package:tuple/tuple.dart';
+import 'package:clean_news_ai/src/ui/views/app_bar.dart';
+import 'package:clean_news_ai/src/ui/views/empty_box.dart';
 
 class SettingsScreen extends StatefulWidget {
 
@@ -30,20 +32,24 @@ class SettingsState extends State<SettingsScreen>{
     super.initState();
   }
 
-  build(context) {
+  build(context){
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Settings"),
-      ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            _settingsWidgets(),
-            Divider(),
-            _languageSelect()
-          ],
-        ),
-      ),
+        resizeToAvoidBottomPadding: false,
+        body: CustomScrollView(
+            slivers: [
+              appBar("Settings"),
+              SliverToBoxAdapter(
+                child: _settingsWidgets(),
+              ),
+              SliverToBoxAdapter(
+                child: Divider(),
+              ),
+              SliverToBoxAdapter(
+                child: _languageSelect(),
+              ),
+              emptyBox()
+            ]
+        )
     );
   }
 
@@ -74,7 +80,6 @@ class SettingsState extends State<SettingsScreen>{
   }
 
   _languageSelect(){
-    // dont repeat your self
     return Column(
         children: [
           Container(

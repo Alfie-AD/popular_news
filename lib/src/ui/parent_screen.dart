@@ -10,19 +10,17 @@ class ParentScreen extends StatefulWidget{
 
 }
 
-class ParentScreenState extends State<ParentScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver{
+class ParentScreenState extends State<ParentScreen> with SingleTickerProviderStateMixin{
 
   TabController tabController;
 
   initState(){
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     tabController = TabController(length: 3, vsync: this);
   }
 
   dispose() {
     tabController.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -48,8 +46,8 @@ class ParentScreenState extends State<ParentScreen> with SingleTickerProviderSta
   }
 
   getTabBar(){
-    final bool iphonex = MediaQuery.of(context).size.height >= 812.0;
-    final double bottomPadding = iphonex ? 16.0 : 0.0;
+    final iphonex = MediaQuery.of(context).size.height >= 812.0;
+    final bottomPadding = iphonex ? 16.0 : 0.0;
     return Container(
       padding: EdgeInsets.only(bottom: bottomPadding),
       color: Colors.black54,

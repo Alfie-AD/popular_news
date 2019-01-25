@@ -1,8 +1,8 @@
 import 'news_api_provider.dart';
 
-class Repository {
 
-  final newsApiProvider = NewsApiProvider();
+final newsApiProvider = NewsApiProvider();
+class Repository {
 
   getNews() async {
     if(mainArticles.isEmpty && savedArticles.isEmpty){

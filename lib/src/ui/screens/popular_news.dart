@@ -13,10 +13,11 @@ class FlutterNewsScreen extends StatefulWidget {
 }
 
 class FlutterNewsScreenState extends State<FlutterNewsScreen> {
-  
+
   build(context) {
     bloc.fetchAllNews();
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: CustomScrollView(
             slivers: [
               appBar("News"),

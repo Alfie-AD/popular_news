@@ -12,10 +12,10 @@ buildList(values){
           values[index].publishedAt,
           values[index].urlToImage,
           values[index].animated
-        );
-      },
-          childCount: values.length
-      ),
-    );
+      );
+    },
+        childCount: values.length
+    ),
+  );
   //}
 }
