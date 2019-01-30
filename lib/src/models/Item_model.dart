@@ -54,13 +54,13 @@ class Article {
     animated = true;
   }
 
-  Map get source => _source;
-  String get author => _author;
-  String get title => _title;
-  String get description => _description;
-  String get url => _url;
-  String get urlToImage => _urlToImage;
-  String get publishedAt => _publishedAt;
-  String get content => _content;
+  get source => _source;
+  get author => _author;
+  get title => _title;
+  get description => _description;
+  get url => _url;
+  get urlToImage => _urlToImage;
+  get publishedAt => _publishedAt;
+  get content => _content;
 
 }

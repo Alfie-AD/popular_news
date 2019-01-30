@@ -1,5 +1,5 @@
 
-import 'package:http/http.dart' show Client;
+import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:clean_news_ai/src/models/Item_model.dart';
 import 'dart:math';
@@ -10,7 +10,6 @@ import 'package:clean_news_ai/src/resources/keys.dart';
 
 class NewsApiProvider {
 
-  final client = Client();
   final prefs = SharedPreferences.getInstance();
 
   getNews() async {
@@ -20,17 +19,17 @@ class NewsApiProvider {
     final lastRequest = (await prefs).getString('lastRequest');
 
     if (theme == null && lastRequest == null){
-      response = await client.get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
+      response = await get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
     }else if (theme != null && lastRequest == null){
       var country = (await prefs).getString('lang') ?? "en";
-      country == "en" ? country = "us" : country = "ru";
-      response = await client.get("https://newsapi.org/v2/top-headlines?country=$country&category=$theme&apiKey=$_apiKey");
+      country == "en" ? country = "us" : (await prefs).getString('lang');
+      response = await get("https://newsapi.org/v2/top-headlines?country=$country&category=$theme&apiKey=$_apiKey");
     }else {
       final lang = (await prefs).getString('lang') ?? "en";
-      response = await client.get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&language=$lang&apiKey=$_apiKey");
+      response = await get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&language=$lang&apiKey=$_apiKey");
     }
 
-    if (response.statusCode == 200) {
+    if ((await response).statusCode == 200) {
       final mapArticles = {};
       ItemModel.fromJson(json.decode(response.body)).articles.forEach((article){
         mapArticles[article.url] = article;

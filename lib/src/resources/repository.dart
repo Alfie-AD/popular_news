@@ -1,7 +1,7 @@
 import 'news_api_provider.dart';
 
-
 final newsApiProvider = NewsApiProvider();
+
 class Repository {
 
   getNews() async {

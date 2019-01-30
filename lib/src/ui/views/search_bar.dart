@@ -18,7 +18,7 @@ searchBar(action){
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
                 decoration: InputDecoration(
-                    icon: Icon(Icons.search),
+                    icon: Icon(Icons.search, color: Colors.black54),
                     border: InputBorder.none,
                     hintStyle: TextStyle(fontSize: 18, color: Colors.black54),
                     hintText: 'Search'

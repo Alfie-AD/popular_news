@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:clean_news_ai/src/resources/repository.dart';
 import 'package:tuple/tuple.dart';
 import 'package:clean_news_ai/src/ui/views/app_bar.dart';
-import 'package:clean_news_ai/src/ui/views/empty_box.dart';
+import 'package:clean_news_ai/src/ui/views/list_items/empty_box.dart';
 
 class SettingsScreen extends StatefulWidget {
 
@@ -27,9 +27,18 @@ class SettingsState extends State<SettingsScreen>{
     Tuple2("General", Icons.star),
   ];
 
+  final settingsLanguage = [
+    Tuple2("Russian", "ru"),
+    Tuple2("English", "en"),
+    Tuple2("Chinese", "cn"),
+    Tuple2("Deutsch", "de"),
+    Tuple2("French", "fr"),
+    Tuple2("Japanese", "jp"),
+  ];
+
   initState(){
-    _check();
     super.initState();
+    _check();
   }
 
   build(context){
@@ -45,7 +54,7 @@ class SettingsState extends State<SettingsScreen>{
                 child: Divider(),
               ),
               SliverToBoxAdapter(
-                child: _languageSelect(),
+                child: _languageWidgets(),
               ),
               emptyBox()
             ]
@@ -58,18 +67,17 @@ class SettingsState extends State<SettingsScreen>{
         children: settingsItems.map((tuple){
           return Container(
             child: RadioListTile(
-                value: tuple.item1,
-                activeColor: Colors.green,
-                groupValue: selectedTheme,
-                onChanged: (value) async {
-                  selectedTheme = tuple.item1;
-                  (await prefs).setString("theme", value.toLowerCase());
-                  (await prefs).setString("lastRequest", null);
-                  mainArticles.clear();
-                  savedArticles.clear();
-                  setState(() {});
-                },
-             secondary: Icon(tuple.item2, color: Colors.green),
+              value: tuple.item1,
+              activeColor: Colors.green,
+              groupValue: selectedTheme,
+              onChanged: (value) async {
+                selectedTheme = tuple.item1;
+                (await prefs).setString("theme", value.toLowerCase());
+                (await prefs).setString("lastRequest", null);
+                mainArticles.clear();
+                setState(() {});
+              },
+              secondary: Icon(tuple.item2, color: Colors.green),
               title: Text(
                 tuple.item1,
               ),
@@ -79,44 +87,26 @@ class SettingsState extends State<SettingsScreen>{
     );
   }
 
-  _languageSelect(){
+  _languageWidgets() {
     return Column(
-        children: [
-          Container(
+        children: settingsLanguage.map((tuple){
+          return Container(
             child: RadioListTile(
-              value: "ru",
+              value: tuple.item2,
               activeColor: Colors.green,
               groupValue: selectedLanguage,
               onChanged: (value) async {
-                selectedLanguage = "ru";
+                selectedLanguage = tuple.item2;
                 (await prefs).setString("lang", value);
                 mainArticles.clear();
-                savedArticles.clear();
                 setState(() {});
               },
               title: Text(
-                "Russian",
+                tuple.item1,
               ),
             ),
-          ),
-          Container(
-            child: RadioListTile(
-              value: "en",
-              activeColor: Colors.green,
-              groupValue: selectedLanguage,
-              onChanged: (value) async {
-                selectedLanguage = "en";
-                (await prefs).setString("lang", value);
-                mainArticles.clear();
-                savedArticles.clear();
-                setState(() {});
-              },
-              title: Text(
-                "English",
-              ),
-            ),
-          )
-        ]
+          );
+        }).toList()
     );
   }
 
@@ -133,5 +123,6 @@ class SettingsState extends State<SettingsScreen>{
       setState(() {});
     }
   }
+
 }
 

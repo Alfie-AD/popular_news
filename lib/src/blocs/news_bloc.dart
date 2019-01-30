@@ -8,21 +8,13 @@ class NewsBloc {
   get news => _controllerNews.stream;
   get saved => _controllerSaved.stream;
 
-  fetchAllNews() async {
-    _controllerNews.add(await _repository.getNews());
-  }
+  fetchAllNews() async => _controllerNews.add(await _repository.getNews());
 
-  fetchSavedNews() async {
-    _controllerSaved.add(await _repository.getSavedNews());
-  }
+  fetchSavedNews() async => _controllerSaved.add(await _repository.getSavedNews());
 
-  saveArticle(holder) async {
-    _repository.saveArticle(holder);
-  }
+  saveArticle(holder) async => _repository.saveArticle(holder);
 
-  deleteArticle(url) async {
-    _repository.deleteArticle(url);
-  }
+  deleteArticle(url) async => _repository.deleteArticle(url);
 
 }
 
