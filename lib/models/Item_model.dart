@@ -49,7 +49,7 @@ class Article {
     _url = map["url"];
     _urlToImage = map["urlToImage"];
     _publishedAt = map["publishedAt"];
-    _content = "nothing";
+    _content = map["content"];
   }
 
   get source => _source;

@@ -2,17 +2,31 @@ import 'package:flutter/material.dart';
 import 'root_element.dart';
 import 'package:flutter/cupertino.dart';
 
-main() => runApp(NewsApp());
+main() => runApp(newsApp);
 
-class NewsApp extends StatelessWidget {
+class NewsApp extends StatefulWidget {
+
+  bool theme = true;
+
+  createState() => newsAppState;
+}
+
+class NewsAppState extends State<NewsApp> {
 
   build(context) {
     return MaterialApp(
-      theme: ThemeData(
+      theme: widget.theme == true ? ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.cyan,
         accentColor: Colors.cyan,
-        primarySwatch: Colors.cyan
+        primarySwatch: Colors.cyan,
+        fontFamily: 'Roboto',
+      ) : ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.green,
+        accentColor: Colors.green,
+        primarySwatch: Colors.green,
+        fontFamily: 'Roboto',
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -20,23 +34,9 @@ class NewsApp extends StatelessWidget {
       ),
     );
   }
+
 }
 
 final newsApp = NewsApp();
+final newsAppState = NewsAppState();
 
-//ThemeData(
-//// Define the default Brightness and Colors
-//brightness: Brightness.dark,
-//primaryColor: Colors.lightBlue[800],
-//accentColor: Colors.cyan[600],
-//
-//// Define the default Font Family
-//fontFamily: 'Montserrat',
-//
-//// Define the default TextTheme. Use this to specify the default
-//// text styling for headlines, titles, bodies of text, and more.
-//textTheme: TextTheme(
-//headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-//title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-//body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-//)

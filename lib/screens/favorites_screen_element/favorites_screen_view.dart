@@ -1,0 +1,54 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'favorites_screen_mutator.dart';
+import 'favorites_screen_state.dart';
+import 'package:clean_news_ai/ui_elements/list_element/list.dart';
+import 'package:clean_news_ai/ui_elements/list_element/empty_box.dart';
+import 'package:clean_news_ai/ui_crutches/custom_scroll.dart';
+
+class FavoritesScreenView extends StatelessWidget{
+
+  build(context) {
+    favoritesMutator.getNews();
+    return CupertinoTabView(
+      builder: (context){
+        return CustomScrollView(
+          physics: customScroll,
+          slivers: [
+            CupertinoSliverNavigationBar(
+              largeTitle: const Text("Favorites"),
+            ),
+            CupertinoSliverRefreshControl(
+              onRefresh: () {
+                return Future.delayed(const Duration(seconds: 3)).then((_) {
+                  favoritesMutator.getNews();
+                });
+              },
+            ),
+            StreamBuilder(
+                stream: state.news,
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    return ListWidget(snapshot.data.values.toList());
+                  }else{
+                    return SliverToBoxAdapter(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: CupertinoActivityIndicator(),
+                        ),
+                      ),
+                    );
+                  }
+                }
+            ),
+            emptyBox
+          ],
+        );
+      },
+    );
+  }
+}
+
+final favoritesScreenView = FavoritesScreenView();

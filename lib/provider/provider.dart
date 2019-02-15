@@ -36,7 +36,6 @@ class NewsApiProvider {
     final savedArticles = await getSavedNews();
     savedArticles?.forEach((key, value){
       if(mapArticles.containsKey(key)){
-        print("cathced");
         mapArticles[key].liked = true;
       }
     });

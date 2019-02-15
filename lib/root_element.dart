@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'main_screen_element/main_screen_view.dart';
-import 'favorites_screen_element/favorites_screen_view.dart';
-import 'settings_screen_element/settings_screen_view.dart';
-import 'search_screen_element/search_screen_view.dart';
+import 'screens/main_screen_element/main_screen_view.dart';
+import 'screens/favorites_screen_element/favorites_screen_view.dart';
+import 'screens/settings_screen_element/settings_screen_view.dart';
+import 'screens/search_screen_element/search_screen_view.dart';
 
 class RootElement extends StatelessWidget{
 
