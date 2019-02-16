@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'root_element.dart';
 import 'package:flutter/cupertino.dart';
 
-main() => runApp(newsApp);
+main() => runApp(NewsApp());
 
 class NewsApp extends StatefulWidget {
-
-  bool theme = true;
 
   createState() => newsAppState;
 }
 
 class NewsAppState extends State<NewsApp> {
 
+  bool theme = true;
+
   build(context) {
     return MaterialApp(
-      theme: widget.theme == true ? ThemeData(
+      theme: theme == true ? ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.cyan,
         accentColor: Colors.cyan,
@@ -37,6 +37,5 @@ class NewsAppState extends State<NewsApp> {
 
 }
 
-final newsApp = NewsApp();
 final newsAppState = NewsAppState();
 

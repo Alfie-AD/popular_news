@@ -69,7 +69,7 @@ class SettingsState extends State<SettingsScreenView>{
               SliverToBoxAdapter(
                 child: Center(
                   child: CupertinoButton(child: Text("change color"), onPressed: (){
-                    newsAppState.widget.theme = !newsAppState.widget.theme;
+                    newsAppState.theme = !newsAppState.theme;
                     newsAppState.setState((){});
                   }),
                 ),
