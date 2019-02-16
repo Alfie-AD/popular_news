@@ -23,9 +23,6 @@ class NewsAppState extends State<NewsApp> {
         fontFamily: 'Roboto',
       ) : ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.green,
-        accentColor: Colors.green,
-        primarySwatch: Colors.green,
         fontFamily: 'Roboto',
       ),
       debugShowCheckedModeBanner: false,

@@ -16,28 +16,21 @@ class SearchWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(24.0),
         ),
         height: 40.0,
-        child: TextField(
+        child: CupertinoTextField(
           controller: textController,
-          decoration: InputDecoration(
-              hintText: "Search",
-              hintStyle: TextStyle(
-                fontSize: 16.0,
-                fontFamily: "Roboto",
-              ),
-              prefixIcon: Icon(Icons.search),
-              suffixIcon: IconButton(icon: Icon(Icons.cancel), onPressed: (){
-                textController.clear();
-              }),
-              border: InputBorder.none),
+          placeholder: "Search",
           style: TextStyle(
             fontSize: 16.0,
             fontFamily: "Roboto",
           ),
+          prefix: Padding(padding: EdgeInsets.only(left: 8.0) , child: Icon(CupertinoIcons.search)),
+          decoration: BoxDecoration(border: null),
+          clearButtonMode: OverlayVisibilityMode.editing,
           onSubmitted: (value) async {
             final prefs = await SharedPreferences.getInstance();
             await prefs.setString("lastRequest", value);
             searchMutator.getNews();
-          },
+          }
         ),
       )
     );
@@ -45,3 +38,27 @@ class SearchWidget extends StatelessWidget {
 }
 
 final searchWidget = SearchWidget();
+
+//TextField(
+//controller: textController,
+//decoration: InputDecoration(
+//hintText: "Search",
+//hintStyle: TextStyle(
+//fontSize: 16.0,
+//fontFamily: "Roboto",
+//),
+//prefixIcon: Icon(Icons.search),
+//suffixIcon: IconButton(icon: Icon(Icons.cancel), onPressed: (){
+//textController.clear();
+//}),
+//border: InputBorder.none),
+//style: TextStyle(
+//fontSize: 16.0,
+//fontFamily: "Roboto",
+//),
+//onSubmitted: (value) async {
+//final prefs = await SharedPreferences.getInstance();
+//await prefs.setString("lastRequest", value);
+//searchMutator.getNews();
+//},
+//)
