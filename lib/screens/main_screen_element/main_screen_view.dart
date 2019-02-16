@@ -5,7 +5,6 @@ import 'main_screen_mutator.dart';
 import 'main_screen_state.dart';
 import 'package:clean_news_ai/ui_elements/list_element/list.dart';
 import 'package:clean_news_ai/ui_elements/list_element/empty_box.dart';
-import 'package:clean_news_ai/ui_crutches/custom_scroll.dart';
 
 class MainScreenView extends StatelessWidget{
 
@@ -14,7 +13,7 @@ class MainScreenView extends StatelessWidget{
     return CupertinoTabView(
       builder: (context){
         return CustomScrollView(
-          physics: customScroll,
+          physics: BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Hot news"),
@@ -26,23 +25,23 @@ class MainScreenView extends StatelessWidget{
                 });
               },
             ),
-          StreamBuilder(
-            stream: state.news,
-            builder: (context, snapshot){
-              if(snapshot.hasData){
-                return ListWidget(snapshot.data.values.toList());
-              }else{
-                return SliverToBoxAdapter(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: CupertinoActivityIndicator(),
+            StreamBuilder(
+              stream: state.news,
+              builder: (context, snapshot){
+                if(snapshot.hasData){
+                  return ListWidget(snapshot.data.values.toList());
+                }else{
+                  return SliverToBoxAdapter(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: CupertinoActivityIndicator(),
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               }
-            }
-          ),
+            ),
             emptyBox
           ],
         );

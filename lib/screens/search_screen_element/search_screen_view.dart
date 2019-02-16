@@ -14,6 +14,7 @@ class SearchScreenView extends StatelessWidget{
       builder: (context){
         searchMutator.getNews();
         return CustomScrollView(
+          physics: BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Search"),
