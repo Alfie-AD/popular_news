@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:clean_news_ai/screens/main_screen_element/main_screen_mutator.dart';
+import 'package:clean_news_ai/screens/search_screen_element/search_screen_mutator.dart';
 import 'package:clean_news_ai/ui_elements/empty_box.dart';
 import 'package:clean_news_ai/main.dart';
 
@@ -55,7 +56,7 @@ class SettingsState extends State<SettingsScreenView>{
                 largeTitle: const Text("Settings"),
               ),
               SliverToBoxAdapter(
-                child: _settingsWidgets(),
+                child: _themesWidgets(),
               ),
               SliverToBoxAdapter(
                 child: Divider(),
@@ -72,7 +73,7 @@ class SettingsState extends State<SettingsScreenView>{
     );
   }
 
-  _settingsWidgets() {
+  _themesWidgets() {
     return Column(
         children: settingsItems.map((tuple){
           return Container(
@@ -105,6 +106,7 @@ class SettingsState extends State<SettingsScreenView>{
               onChanged: (value) async {
                 selectedLanguage = tuple.item2;
                 (await prefs).setString("lang", value);
+                searchMutator.getNews();
                 mainMutator.getNews();
                 setState(() {});
               },

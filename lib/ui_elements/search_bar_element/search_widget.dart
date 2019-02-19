@@ -9,7 +9,7 @@ class SearchWidget extends StatelessWidget {
 
   build(context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
+      padding: const EdgeInsets.only(right: 16.0, top: 4.0),
       child: Container(
         decoration: BoxDecoration(
           color: CupertinoColors.inactiveGray,
@@ -37,27 +37,3 @@ class SearchWidget extends StatelessWidget {
 }
 
 final searchWidget = SearchWidget();
-
-//TextField(
-//controller: textController,
-//decoration: InputDecoration(
-//hintText: "Search",
-//hintStyle: TextStyle(
-//fontSize: 16.0,
-//fontFamily: "Roboto",
-//),
-//prefixIcon: Icon(Icons.search),
-//suffixIcon: IconButton(icon: Icon(Icons.cancel), onPressed: (){
-//textController.clear();
-//}),
-//border: InputBorder.none),
-//style: TextStyle(
-//fontSize: 16.0,
-//fontFamily: "Roboto",
-//),
-//onSubmitted: (value) async {
-//final prefs = await SharedPreferences.getInstance();
-//await prefs.setString("lastRequest", value);
-//searchMutator.getNews();
-//},
-//)

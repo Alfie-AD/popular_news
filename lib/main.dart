@@ -7,12 +7,12 @@ main() => runApp(NewsApp());
 class NewsApp extends StatelessWidget {
   build(context) {
     return MaterialApp(
-      theme:  ThemeData(
+      theme: ThemeData(
         toggleableActiveColor: Colors.blueAccent,
         brightness: Brightness.dark,
       ),
       home: Scaffold(
-        body: rootElement,
+        body: RootElement(),
       ),
     );
   }

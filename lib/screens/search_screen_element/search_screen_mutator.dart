@@ -1,21 +1,17 @@
 
 import 'package:clean_news_ai/provider/provider.dart';
 import 'search_screen_state.dart';
+import 'package:clean_news_ai/screens/abstracts/abstract_mutator.dart';
 
-class SearchScreenMutator {
+class SearchScreenMutator extends AbstractMutator {
+
+  const SearchScreenMutator(state) : super(state);
 
   getNews() async {
     state.cashedData = await provider.getNews(true);
     state.broadcaster.add(state.cashedData);
   }
 
-  updateStars (key) {
-    if(state.cashedData.containsKey(key)){
-      state.cashedData[key].liked = !state.cashedData[key].liked;
-      state.broadcaster.add(state.cashedData);
-    }
-  }
-
 }
 
-final searchMutator = SearchScreenMutator();
+final searchMutator = SearchScreenMutator(state);

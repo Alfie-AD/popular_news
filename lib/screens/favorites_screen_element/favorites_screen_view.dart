@@ -8,8 +8,11 @@ import 'package:clean_news_ai/ui_elements/empty_box.dart';
 
 class FavoritesScreenView extends StatelessWidget{
 
-  build(context) {
+  FavoritesScreenView(){
     favoritesMutator.getNews();
+  }
+
+  build(context) {
     return CupertinoTabView(
       builder: (context){
         return CustomScrollView(
@@ -20,7 +23,7 @@ class FavoritesScreenView extends StatelessWidget{
             ),
             CupertinoSliverRefreshControl(
               onRefresh: () {
-                return Future.delayed(const Duration(seconds: 3)).then((_) {
+                return Future.delayed(const Duration(seconds: 2)).then((_) {
                   favoritesMutator.getNews();
                 });
               },

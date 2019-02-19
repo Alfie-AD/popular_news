@@ -1,12 +1,5 @@
-import 'dart:async';
 
-class MainScreenState {
+import 'package:clean_news_ai/screens/abstracts/abstract_state.dart';
 
-  Map cashedData = {};
-  final broadcaster = StreamController.broadcast();
-  get news => broadcaster.stream;
-
-
-}
-
+class MainScreenState extends AbstractState {}
 final state = MainScreenState();

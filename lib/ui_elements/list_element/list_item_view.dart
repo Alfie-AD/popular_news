@@ -8,7 +8,6 @@ import 'package:clean_news_ai/screens/search_screen_element/search_screen_mutato
 import 'package:clean_news_ai/provider/provider.dart';
 import 'dart:ui';
 
-
 class ListItemView extends StatelessWidget {
 
   final name;
@@ -19,24 +18,23 @@ class ListItemView extends StatelessWidget {
   final state;
   final mutator;
 
-  const ListItemView(
+  ListItemView(
       this.name,
       this.url,
       this.title,
       this.publishedAt,
       this.urlToImage,
       this.state,
-      this.mutator);
+      this.mutator)
+  {
+    mutator.downloadImage(urlToImage);
+  }
 
   build(context) {
-    mutator.downloadImage(urlToImage);
     return StreamBuilder(
         stream: state.imageStream,
         builder: (context, value){
           return GestureDetector(
-            onLongPress: (){
-              Share.share(url);
-            },
             onTap: (){
               launch(url);
             },
@@ -60,22 +58,32 @@ class ListItemView extends StatelessWidget {
                           Expanded(child: Text(
                               name, style: const TextStyle(color: CupertinoColors.white))
                           ),
-                          IconButton(
-                            icon: Icon(state.liked ? CupertinoIcons.bookmark_solid : CupertinoIcons.bookmark),
-                            onPressed: () async {
-                              favoritesMutator.getNews();
-                              mainMutator.updateStars(url);
-                              searchMutator.updateStars(url);
-                              state.liked ? provider.deleteMyArticle(url) : provider.uploadMyArticle(
-                                  {
-                                    "name" : name,
-                                    "url" : url,
-                                    "title" : title,
-                                    "publishedAt" : publishedAt,
-                                    "urlToImage" : urlToImage,
-                                  });
-                            },
-                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(CupertinoIcons.reply),
+                                onPressed: () async {
+                                  Share.share(url);
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(state.liked ? CupertinoIcons.bookmark_solid : CupertinoIcons.bookmark),
+                                onPressed: () async {
+                                  state.liked ? provider.deleteMyArticle(url) : provider.uploadMyArticle(
+                                      {
+                                        "name" : name,
+                                        "url" : url,
+                                        "title" : title,
+                                        "publishedAt" : publishedAt,
+                                        "urlToImage" : urlToImage,
+                                      });
+                                  favoritesMutator.getNews();
+                                  mainMutator.updateStars(url);
+                                  searchMutator.updateStars(url);
+                                },
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),

@@ -8,19 +8,22 @@ import 'package:clean_news_ai/ui_elements/empty_box.dart';
 
 class MainScreenView extends StatelessWidget{
 
-  build(context) {
+  MainScreenView(){
     mainMutator.getNews();
+  }
+
+  build(context) {
     return CupertinoTabView(
       builder: (context){
         return CustomScrollView(
-         // physics: BouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Hot news"),
             ),
             CupertinoSliverRefreshControl(
               onRefresh: () {
-                return Future.delayed(const Duration(seconds: 3)).then((_) {
+                return Future.delayed(const Duration(seconds: 2)).then((_) {
                   mainMutator.getNews();
                 });
               },

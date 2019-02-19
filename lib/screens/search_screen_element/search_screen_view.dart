@@ -9,10 +9,13 @@ import 'package:clean_news_ai/ui_elements/search_bar_element/search_widget.dart'
 
 class SearchScreenView extends StatelessWidget{
 
+  SearchScreenView(){
+    searchMutator.getNews();
+  }
+
   build(context) {
     return CupertinoTabView(
       builder: (context){
-        searchMutator.getNews();
         return CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: [

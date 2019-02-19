@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ListItemMutator {
 
   final state;
@@ -8,9 +7,8 @@ class ListItemMutator {
 
   downloadImage(url) async {
     if(url != null){
-      final image = Image.network(url).image;
-      image.resolve(ImageConfiguration()).addListener((imageInfo, synchronousCall){
-        state.cashedImage = image;
+      state.cashedImage = Image.network(url).image;
+      state.cashedImage.resolve(ImageConfiguration()).addListener((imageInfo, synchronousCall){
         state.imageBroadcaster.add(state.cashedImage);
       });
     }

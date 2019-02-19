@@ -6,7 +6,7 @@ class EmptyBox extends StatelessWidget{
     final bottomPadding = iphonex ? 16.0 : 0.0;
     return SliverToBoxAdapter(
       child: Container(
-        height: 70 + bottomPadding,
+        height: 50 + bottomPadding,
       ),
     );
   }
