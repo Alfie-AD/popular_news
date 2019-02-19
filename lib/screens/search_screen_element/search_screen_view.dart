@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'search_screen_state.dart';
 import 'search_screen_mutator.dart';
-import 'package:clean_news_ai/ui_elements/list_element/list.dart';
-import 'package:clean_news_ai/ui_elements/list_element/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/list.dart';
+import 'package:clean_news_ai/ui_elements/empty_box.dart';
 import 'package:clean_news_ai/ui_elements/search_bar_element/search_widget.dart';
 
 class SearchScreenView extends StatelessWidget{
@@ -17,7 +17,8 @@ class SearchScreenView extends StatelessWidget{
           physics: BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
-              largeTitle: const Text("Search"),
+              largeTitle: searchWidget,
+              middle: Text("Search"),
             ),
             CupertinoSliverRefreshControl(
               onRefresh: () {
@@ -25,12 +26,6 @@ class SearchScreenView extends StatelessWidget{
                   searchMutator.getNews();
                 });
               },
-            ),
-            SliverPadding(
-              padding: EdgeInsets.all(2.0),
-            ),
-            SliverToBoxAdapter(
-              child: searchWidget,
             ),
             StreamBuilder(
                 stream: state.news,

@@ -4,35 +4,18 @@ import 'package:flutter/cupertino.dart';
 
 main() => runApp(NewsApp());
 
-class NewsApp extends StatefulWidget {
-
-  createState() => newsAppState;
-}
-
-class NewsAppState extends State<NewsApp> {
-
-  bool theme = true;
-
+class NewsApp extends StatelessWidget {
   build(context) {
     return MaterialApp(
-      theme: theme == true ? ThemeData(
+      theme:  ThemeData(
+        toggleableActiveColor: Colors.blueAccent,
         brightness: Brightness.dark,
-        primaryColor: Colors.cyan,
-        accentColor: Colors.cyan,
-        primarySwatch: Colors.cyan,
-        fontFamily: 'Roboto',
-      ) : ThemeData(
-        brightness: Brightness.light,
-        fontFamily: 'Roboto',
       ),
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: rootElement,
       ),
     );
   }
-
 }
 
-final newsAppState = NewsAppState();
 

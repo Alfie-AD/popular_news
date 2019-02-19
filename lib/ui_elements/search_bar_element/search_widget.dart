@@ -9,22 +9,21 @@ class SearchWidget extends StatelessWidget {
 
   build(context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(right: 16.0),
       child: Container(
         decoration: BoxDecoration(
           color: CupertinoColors.inactiveGray,
           borderRadius: BorderRadius.circular(24.0),
         ),
-        height: 40.0,
         child: CupertinoTextField(
           controller: textController,
           placeholder: "Search",
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16.0,
-            fontFamily: "Roboto",
+            fontFamily: "SanFrancisco",
           ),
-          prefix: Padding(padding: EdgeInsets.only(left: 8.0) , child: Icon(CupertinoIcons.search)),
-          decoration: BoxDecoration(border: null),
+          prefix: const Padding(padding: EdgeInsets.only(left: 8.0) , child: Icon(CupertinoIcons.search)),
+          decoration: const BoxDecoration(border: null),
           clearButtonMode: OverlayVisibilityMode.editing,
           onSubmitted: (value) async {
             final prefs = await SharedPreferences.getInstance();

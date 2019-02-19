@@ -8,20 +8,21 @@ import 'screens/search_screen_element/search_screen_view.dart';
 class RootElement extends StatelessWidget{
 
   build(context) {
+
     return CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
             items: [
               BottomNavigationBarItem(
-                  icon: const Icon(Icons.whatshot),
+                  icon: const Icon(CupertinoIcons.time),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.search),
+                icon: const Icon(CupertinoIcons.search),
               ),
               BottomNavigationBarItem(
-                  icon: const Icon(Icons.star),
+                  icon: const Icon(CupertinoIcons.bookmark),
               ),
               BottomNavigationBarItem(
-                  icon: const Icon(Icons.settings),
+                  icon: const Icon(CupertinoIcons.gear),
               ),
             ]
         ),
@@ -43,6 +44,7 @@ class RootElement extends StatelessWidget{
         }
     );
   }
+
 }
 
 final rootElement = RootElement();

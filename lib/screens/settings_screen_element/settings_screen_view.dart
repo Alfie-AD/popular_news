@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:clean_news_ai/screens/main_screen_element/main_screen_mutator.dart';
-import 'package:clean_news_ai/ui_elements/list_element/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/empty_box.dart';
 import 'package:clean_news_ai/main.dart';
 
 /// This widget is't done yet!
 class SettingsScreenView extends StatefulWidget {
-
+  bool selectedColorTheme = true;
   createState() => SettingsState();
 
 }
@@ -18,6 +18,7 @@ class SettingsState extends State<SettingsScreenView>{
 
   String selectedTheme;
   String selectedLanguage;
+
   final prefs = SharedPreferences.getInstance();
 
   final settingsItems = [
@@ -65,15 +66,6 @@ class SettingsState extends State<SettingsScreenView>{
               SliverToBoxAdapter(
                 child: Divider(),
               ),
-              /// fucking magic
-              SliverToBoxAdapter(
-                child: Center(
-                  child: CupertinoButton(child: Text("change color"), onPressed: (){
-                    newsAppState.theme = !newsAppState.theme;
-                    newsAppState.setState((){});
-                  }),
-                ),
-              ),
               emptyBox
             ]
         )
@@ -86,7 +78,6 @@ class SettingsState extends State<SettingsScreenView>{
           return Container(
             child: RadioListTile(
               value: tuple.item1,
-              activeColor: Colors.cyan,
               groupValue: selectedTheme,
               onChanged: (value) async {
                 selectedTheme = tuple.item1;
@@ -95,7 +86,6 @@ class SettingsState extends State<SettingsScreenView>{
                 mainMutator.getNews();
                 setState(() {});
               },
-              secondary: Icon(tuple.item2, color: Colors.cyan),
               title: Text(
                 tuple.item1,
               ),
@@ -111,7 +101,6 @@ class SettingsState extends State<SettingsScreenView>{
           return Container(
             child: RadioListTile(
               value: tuple.item2,
-              activeColor: Colors.cyan,
               groupValue: selectedLanguage,
               onChanged: (value) async {
                 selectedLanguage = tuple.item2;
@@ -145,4 +134,3 @@ class SettingsState extends State<SettingsScreenView>{
 }
 
 final settingsScreenView = SettingsScreenView();
-

@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'main_screen_mutator.dart';
 import 'main_screen_state.dart';
-import 'package:clean_news_ai/ui_elements/list_element/list.dart';
-import 'package:clean_news_ai/ui_elements/list_element/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/list.dart';
+import 'package:clean_news_ai/ui_elements/empty_box.dart';
 
 class MainScreenView extends StatelessWidget{
 
@@ -13,7 +13,7 @@ class MainScreenView extends StatelessWidget{
     return CupertinoTabView(
       builder: (context){
         return CustomScrollView(
-          physics: BouncingScrollPhysics(),
+         // physics: BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Hot news"),
@@ -48,6 +48,7 @@ class MainScreenView extends StatelessWidget{
       },
     );
   }
+
 }
 
 final mainScreenView = MainScreenView();

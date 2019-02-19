@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'favorites_screen_mutator.dart';
 import 'favorites_screen_state.dart';
-import 'package:clean_news_ai/ui_elements/list_element/list.dart';
-import 'package:clean_news_ai/ui_elements/list_element/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/list.dart';
+import 'package:clean_news_ai/ui_elements/empty_box.dart';
 
 class FavoritesScreenView extends StatelessWidget{
 

@@ -37,12 +37,13 @@ class Article {
     _urlToImage = article["urlToImage"];
     DateFormat format = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
     final unformedDate = format.parse(article["publishedAt"]);
-    _publishedAt = "${unformedDate.day}/${unformedDate.month}/${unformedDate.year}";
+    _publishedAt =
+    "${unformedDate.day} ${months[unformedDate.month]} ${unformedDate.year}";
     _content = article["content"];
   }
 
   Article.fromMap(map) {
-    _source = { "name" : map["name"]};
+    _source = { "name": map["name"]};
     _author = "nothing";
     _title = map["title"];
     _description = "nothing";
@@ -61,4 +62,18 @@ class Article {
   get publishedAt => _publishedAt;
   get content => _content;
 
+  final months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 }
