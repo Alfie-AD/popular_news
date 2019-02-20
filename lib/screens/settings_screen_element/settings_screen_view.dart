@@ -6,7 +6,8 @@ import 'package:tuple/tuple.dart';
 import 'package:clean_news_ai/screens/main_screen_element/main_screen_mutator.dart';
 import 'package:clean_news_ai/screens/search_screen_element/search_screen_mutator.dart';
 import 'package:clean_news_ai/ui_elements/empty_box.dart';
-import 'package:clean_news_ai/main.dart';
+import 'package:clean_news_ai/ui_elements/crunch.dart';
+
 
 /// This widget is't done yet!
 class SettingsScreenView extends StatefulWidget {
@@ -50,7 +51,8 @@ class SettingsState extends State<SettingsScreenView>{
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          /// ios BouncingScrollPhysics()
+          physics: customScroll,
             slivers: [
               CupertinoSliverNavigationBar(
                 largeTitle: const Text("Settings"),

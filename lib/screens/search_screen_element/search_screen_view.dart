@@ -5,6 +5,7 @@ import 'search_screen_state.dart';
 import 'search_screen_mutator.dart';
 import 'package:clean_news_ai/ui_elements/list.dart';
 import 'package:clean_news_ai/ui_elements/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/crunch.dart';
 import 'package:clean_news_ai/ui_elements/search_bar_element/search_widget.dart';
 
 class SearchScreenView extends StatelessWidget{
@@ -17,7 +18,8 @@ class SearchScreenView extends StatelessWidget{
     return CupertinoTabView(
       builder: (context){
         return CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          /// ios BouncingScrollPhysics()
+          physics: customScroll,
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: searchWidget,

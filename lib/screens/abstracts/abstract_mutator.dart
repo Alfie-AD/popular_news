@@ -1,7 +1,6 @@
 
 import 'package:clean_news_ai/provider/provider.dart';
 
-
 class AbstractMutator {
 
   final state;

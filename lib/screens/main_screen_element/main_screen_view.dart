@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'main_screen_mutator.dart';
 import 'main_screen_state.dart';
 import 'package:clean_news_ai/ui_elements/list.dart';
+import 'package:clean_news_ai/ui_elements/crunch.dart';
 import 'package:clean_news_ai/ui_elements/empty_box.dart';
 
 class MainScreenView extends StatelessWidget{
@@ -16,7 +17,8 @@ class MainScreenView extends StatelessWidget{
     return CupertinoTabView(
       builder: (context){
         return CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          /// ios BouncingScrollPhysics()
+          physics: customScroll,
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Hot news"),

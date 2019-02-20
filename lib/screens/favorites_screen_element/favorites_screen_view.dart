@@ -5,6 +5,7 @@ import 'favorites_screen_mutator.dart';
 import 'favorites_screen_state.dart';
 import 'package:clean_news_ai/ui_elements/list.dart';
 import 'package:clean_news_ai/ui_elements/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/crunch.dart';
 
 class FavoritesScreenView extends StatelessWidget{
 
@@ -16,7 +17,8 @@ class FavoritesScreenView extends StatelessWidget{
     return CupertinoTabView(
       builder: (context){
         return CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          /// ios BouncingScrollPhysics()
+          physics: customScroll,
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Favorites"),
