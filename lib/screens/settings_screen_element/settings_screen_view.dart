@@ -31,6 +31,7 @@ class SettingsState extends State<SettingsScreenView>{
     const Tuple2("Health", Icons.healing),
     const Tuple2("Technology", Icons.airplay),
     const Tuple2("General", Icons.star),
+    const Tuple2("Mixed", Icons.bubble_chart),
   ];
 
   final settingsLanguage = [
@@ -52,7 +53,7 @@ class SettingsState extends State<SettingsScreenView>{
         resizeToAvoidBottomPadding: false,
         body: CustomScrollView(
           /// ios BouncingScrollPhysics()
-          physics: customScroll,
+          physics: BouncingScrollPhysics(),
             slivers: [
               CupertinoSliverNavigationBar(
                 largeTitle: const Text("Settings"),
@@ -84,8 +85,9 @@ class SettingsState extends State<SettingsScreenView>{
               groupValue: selectedTheme,
               onChanged: (value) async {
                 selectedTheme = tuple.item1;
-                (await prefs).setString("theme", value.toLowerCase());
-                (await prefs).setString("lastRequest", null);
+                value != "Mixed" ?
+                (await prefs).setString("theme", value.toLowerCase()) :
+                (await prefs).setString("theme", null);
                 mainMutator.getNews();
                 setState(() {});
               },
@@ -108,7 +110,6 @@ class SettingsState extends State<SettingsScreenView>{
               onChanged: (value) async {
                 selectedLanguage = tuple.item2;
                 (await prefs).setString("lang", value);
-                searchMutator.getNews();
                 mainMutator.getNews();
                 setState(() {});
               },
@@ -122,15 +123,13 @@ class SettingsState extends State<SettingsScreenView>{
   }
 
   _check() async {
+    selectedLanguage = (await prefs).getString("lang") ?? "en";
+    setState(() {});
     if((await prefs).getString("theme") != null){
       selectedTheme = (await prefs).getString("theme")[0].toUpperCase() + (await prefs).getString("theme").substring(1);
       setState(() {});
-    }
-    if((await prefs).getString("lang") != null){
-      selectedLanguage = (await prefs).getString("lang");
-      setState(() {});
     }else{
-      selectedLanguage = "en";
+      selectedTheme = "Mixed";
       setState(() {});
     }
   }

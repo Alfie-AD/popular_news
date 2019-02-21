@@ -18,7 +18,7 @@ class MainScreenView extends StatelessWidget{
       builder: (context){
         return CustomScrollView(
           /// ios BouncingScrollPhysics()
-          physics: customScroll,
+          physics: BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Hot news"),

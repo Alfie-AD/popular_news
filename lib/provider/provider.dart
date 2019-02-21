@@ -18,12 +18,12 @@ class NewsApiProvider {
     final theme = (await _prefs).getString('theme');
     final lastRequest = (await _prefs).getString('lastRequest');
 
-    if (theme == null && lastRequest == null){
-      response = await get("https://newsapi.org/v2/everything?q=flutter&sortBy=relevance&apiKey=$_apiKey");
-    }else if (theme != null && search == false){
+    if (search == false){
       var country = (await _prefs).getString('lang') ?? "en";
       country == "en" ? country = "us" : (await _prefs).getString('lang');
-      response = await get("https://newsapi.org/v2/top-headlines?country=$country&category=$theme&apiKey=$_apiKey");
+      theme != null ?
+        response = await get("https://newsapi.org/v2/top-headlines?country=$country&category=$theme&apiKey=$_apiKey"):
+        response = await get("https://newsapi.org/v2/top-headlines?country=$country&apiKey=$_apiKey");
     }else {
       final lang = (await _prefs).getString('lang') ?? "en";
       response = await get("https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&language=$lang&apiKey=$_apiKey");
@@ -77,7 +77,9 @@ class NewsApiProvider {
   _saveMyID() async {
     final myid = Uuid().v4();
     await Firestore.instance.collection("users").document(myid).get();
-    await (await _prefs).setString('id', myid);
+    (await _prefs).setString('id', myid);
+   // (await _prefs).setString("theme", "general");
+  //  (await _prefs).setString("lastRequest", "flutter");
   }
 
 }

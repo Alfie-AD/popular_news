@@ -18,7 +18,7 @@ class FavoritesScreenView extends StatelessWidget{
       builder: (context){
         return CustomScrollView(
           /// ios BouncingScrollPhysics()
-          physics: customScroll,
+          physics: BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Favorites"),

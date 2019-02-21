@@ -5,7 +5,10 @@ class ItemModel {
 
   ItemModel.fromJson(Map<String, dynamic> parsedJson) {
     List<Article> temp = [];
-    parsedJson['articles'].map((article) => Article(article)).toList();
+    for (int i = 0; i < parsedJson['articles'].length; i++) {
+      Article article = Article(parsedJson['articles'][i]);
+      temp.add(article);
+    }
     _articles = temp;
   }
 
