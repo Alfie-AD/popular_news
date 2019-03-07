@@ -1,8 +1,6 @@
-
 import 'package:clean_news_ai/provider/provider.dart';
 
-class AbstractMutator {
-
+abstract class AbstractMutator {
   final state;
   const AbstractMutator(this.state);
 
@@ -11,11 +9,10 @@ class AbstractMutator {
     state.broadcaster.add(state.cashedData);
   }
 
-  updateStars (key) {
-    if(state.cashedData.containsKey(key)){
+  updateStars(key) {
+    if (state.cashedData.containsKey(key)) {
       state.cashedData[key].liked = !state.cashedData[key].liked;
       state.broadcaster.add(state.cashedData);
     }
   }
-
 }

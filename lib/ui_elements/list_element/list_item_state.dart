@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
 
 class ListItemState {
 
@@ -9,5 +10,9 @@ class ListItemState {
   var cashedImage = Image.asset("assets/oad.png").image;
   final imageBroadcaster = StreamController.broadcast();
   get imageStream => imageBroadcaster.stream;
+
+  close(){
+    imageBroadcaster.close();
+  }
 
 }

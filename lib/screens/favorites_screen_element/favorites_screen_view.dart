@@ -1,21 +1,21 @@
 import 'dart:async';
+
+import 'package:clean_news_ai/ui_elements/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'favorites_screen_mutator.dart';
 import 'favorites_screen_state.dart';
-import 'package:clean_news_ai/ui_elements/list.dart';
-import 'package:clean_news_ai/ui_elements/empty_box.dart';
-import 'package:clean_news_ai/ui_elements/crunch.dart';
 
-class FavoritesScreenView extends StatelessWidget{
-
-  FavoritesScreenView(){
+class FavoritesScreenView extends StatelessWidget {
+  FavoritesScreenView() {
     favoritesMutator.getNews();
   }
 
   build(context) {
     return CupertinoTabView(
-      builder: (context){
+      builder: (context) {
         return CustomScrollView(
           /// ios BouncingScrollPhysics()
           physics: BouncingScrollPhysics(),
@@ -32,10 +32,10 @@ class FavoritesScreenView extends StatelessWidget{
             ),
             StreamBuilder(
                 stream: state.news,
-                builder: (context, snapshot){
-                  if(snapshot.hasData){
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
                     return ListWidget(snapshot.data.values.toList());
-                  }else{
+                  } else {
                     return SliverToBoxAdapter(
                       child: Center(
                         child: Padding(
@@ -45,8 +45,7 @@ class FavoritesScreenView extends StatelessWidget{
                       ),
                     );
                   }
-                }
-            ),
+                }),
             emptyBox
           ],
         );
