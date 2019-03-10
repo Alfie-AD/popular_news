@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class ListItemState {
-
   var liked;
   ListItemState(this.liked);
 
@@ -11,8 +10,7 @@ class ListItemState {
   final imageBroadcaster = StreamController.broadcast();
   get imageStream => imageBroadcaster.stream;
 
-  close(){
+  close() {
     imageBroadcaster.close();
   }
-
 }

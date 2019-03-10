@@ -1,15 +1,26 @@
-import 'package:flutter/material.dart';
-import 'root_element.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-main() => runApp(NewsApp());
+import 'root_element.dart';
 
-class NewsApp extends StatelessWidget {
+bool lightTheme = false;
+
+main() async {
+  final prefs = SharedPreferences.getInstance();
+  lightTheme = (await prefs).getBool("t") ?? false;
+  runApp(NewsApp());
+}
+
+class NewsApp extends StatefulWidget {
+  createState() => newsAppState;
+}
+
+class NewsAppState extends State<NewsApp> {
   build(context) {
-    return MaterialApp(
-      theme: ThemeData(
-        toggleableActiveColor: Colors.blueAccent,
-        brightness: Brightness.dark,
+    return CupertinoApp(
+      theme: CupertinoThemeData(
+        brightness: lightTheme ? Brightness.light : Brightness.dark,
       ),
       home: Scaffold(
         body: RootElement(),
@@ -18,4 +29,4 @@ class NewsApp extends StatelessWidget {
   }
 }
 
-
+final newsAppState = NewsAppState();

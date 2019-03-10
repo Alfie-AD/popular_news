@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:share/share.dart';
+import 'dart:ui';
+
+import 'package:clean_news_ai/provider/provider.dart';
 import 'package:clean_news_ai/screens/favorites_screen_element/favorites_screen_mutator.dart';
 import 'package:clean_news_ai/screens/main_screen_element/main_screen_mutator.dart';
 import 'package:clean_news_ai/screens/search_screen_element/search_screen_mutator.dart';
-import 'package:clean_news_ai/provider/provider.dart';
-import 'dart:ui';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ListItemView extends StatelessWidget {
-
   final name;
   final url;
   final title;
@@ -18,35 +18,28 @@ class ListItemView extends StatelessWidget {
   final state;
   final mutator;
 
-  ListItemView(
-      this.name,
-      this.url,
-      this.title,
-      this.publishedAt,
-      this.urlToImage,
-      this.state,
-      this.mutator)
-  {
+  ListItemView(this.name, this.url, this.title, this.publishedAt,
+      this.urlToImage, this.state, this.mutator) {
     mutator.downloadImage(urlToImage);
   }
 
   build(context) {
     return StreamBuilder(
       stream: state.imageStream,
-      builder: (context, value){
+      builder: (context, value) {
         return GestureDetector(
-          onTap: (){
-            launch(url);},
+          onTap: () {
+            launch(url);
+          },
           child: Card(
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.grey[900],
+                  color: Colors.black38,
                   image: DecorationImage(
                       fit: BoxFit.cover,
                       image: value.data ?? state.cashedImage,
-                      colorFilter: const ColorFilter.mode(Colors.black38, BlendMode.hardLight)
-                  )
-              ),
+                      colorFilter: const ColorFilter.mode(
+                          Colors.black38, BlendMode.hardLight))),
               child: Column(
                 children: [
                   Container(
@@ -54,30 +47,39 @@ class ListItemView extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Row(
                       children: [
-                        Expanded(child: Text(
-                            name, style: const TextStyle(color: CupertinoColors.white))
-                        ),
+                        Expanded(
+                            child: Text(name,
+                                style: const TextStyle(
+                                    color: CupertinoColors.white))),
                         Row(
                           children: [
                             IconButton(
-                              icon: const Icon(CupertinoIcons.reply),
+                              icon: const Icon(CupertinoIcons.reply,
+                                  color: Colors.white),
                               onPressed: () async {
-                                Share.share(url);},
+                                Share.share(url);
+                              },
                             ),
                             IconButton(
-                              icon: Icon(state.liked ? CupertinoIcons.bookmark_solid : CupertinoIcons.bookmark),
+                              icon: Icon(
+                                  state.liked
+                                      ? CupertinoIcons.bookmark_solid
+                                      : CupertinoIcons.bookmark,
+                                  color: Colors.blueAccent),
                               onPressed: () async {
-                                state.liked ? provider.deleteMyArticle(url) : provider.uploadMyArticle(
-                                    {
-                                      "name" : name,
-                                      "url" : url,
-                                      "title" : title,
-                                      "publishedAt" : publishedAt,
-                                      "urlToImage" : urlToImage,
-                                    });
+                                state.liked
+                                    ? provider.deleteMyArticle(url)
+                                    : provider.uploadMyArticle({
+                                        "name": name,
+                                        "url": url,
+                                        "title": title,
+                                        "publishedAt": publishedAt,
+                                        "urlToImage": urlToImage,
+                                      });
                                 favoritesMutator.getNews();
                                 mainMutator.updateStars(url);
-                                searchMutator.updateStars(url);},
+                                searchMutator.updateStars(url);
+                              },
                             ),
                           ],
                         )
@@ -87,19 +89,23 @@ class ListItemView extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     alignment: Alignment.centerLeft,
-                    child: Text(title, style: const TextStyle(color: CupertinoColors.white, fontSize: 20)),
+                    child: Text(title,
+                        style: const TextStyle(
+                            color: CupertinoColors.white, fontSize: 20)),
                   ),
                   Container(
                     padding: const EdgeInsets.all(16.0),
                     alignment: Alignment.centerRight,
-                    child: Text(publishedAt, style: const TextStyle(color: CupertinoColors.white, fontSize: 16)),
+                    child: Text(publishedAt,
+                        style: const TextStyle(
+                            color: CupertinoColors.white, fontSize: 16)),
                   ),
                 ],
               ),
             ),
           ),
         );
-        },
+      },
     );
   }
 }
