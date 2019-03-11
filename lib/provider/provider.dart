@@ -60,8 +60,7 @@ class NewsApiProvider {
   }
 
   uploadMyArticle(holder) async {
-    final key =
-        holder["url"].toString().replaceAll(new RegExp(r"[/.]"), "");
+    final key = holder["url"].replaceAll(RegExp(r"[/.]"), "");
     final uuid = await showMyID();
     Firestore.instance
         .collection("users")
@@ -70,7 +69,7 @@ class NewsApiProvider {
   }
 
   deleteMyArticle(url) async {
-    final key = url.toString().replaceAll(new RegExp(r"[/.]"), "");
+    final key = url.replaceAll(RegExp(r"[/.]"), "");
     final uuid = await showMyID();
     Firestore.instance
         .collection("users")

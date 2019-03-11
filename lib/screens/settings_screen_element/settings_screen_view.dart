@@ -47,7 +47,7 @@ class SettingsState extends State<SettingsScreenView> {
       return CustomScrollView(
 
           /// ios BouncingScrollPhysics()
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: const Text("Settings"),

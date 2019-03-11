@@ -1,25 +1,25 @@
 import 'dart:async';
+
+import 'package:clean_news_ai/ui_elements/empty_box.dart';
+import 'package:clean_news_ai/ui_elements/list.dart';
+import 'package:clean_news_ai/ui_elements/search_bar_element/search_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'search_screen_state.dart';
+
 import 'search_screen_mutator.dart';
-import 'package:clean_news_ai/ui_elements/list.dart';
-import 'package:clean_news_ai/ui_elements/empty_box.dart';
-import 'package:clean_news_ai/ui_elements/crunch.dart';
-import 'package:clean_news_ai/ui_elements/search_bar_element/search_widget.dart';
+import 'search_screen_state.dart';
 
-class SearchScreenView extends StatelessWidget{
-
-  SearchScreenView(){
+class SearchScreenView extends StatelessWidget {
+  SearchScreenView() {
     searchMutator.getNews();
   }
 
   build(context) {
     return CupertinoTabView(
-      builder: (context){
+      builder: (context) {
         return CustomScrollView(
           /// ios BouncingScrollPhysics()
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: searchWidget,
@@ -34,21 +34,20 @@ class SearchScreenView extends StatelessWidget{
             ),
             StreamBuilder(
                 stream: state.news,
-                builder: (context, snapshot){
-                  if(snapshot.hasData){
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
                     return ListWidget(snapshot.data.values.toList());
-                  }else{
+                  } else {
                     return SliverToBoxAdapter(
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: CupertinoActivityIndicator(),
+                          child: const CupertinoActivityIndicator(),
                         ),
                       ),
                     );
                   }
-                }
-            ),
+                }),
             emptyBox
           ],
         );
