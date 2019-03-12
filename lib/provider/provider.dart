@@ -9,16 +9,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class NewsApiProvider {
+
+  /// ToDo : 28 api cant get data from firebase
   final _prefs = SharedPreferences.getInstance();
+  final _fireStore = Firestore.instance;
 
   getNews(search) async {
+    await _fireStore.settings(timestampsInSnapshotsEnabled: true);
     var response;
     final _apiKey = apikeys[Random().nextInt(4)];
     final theme = (await _prefs).getString('theme');
     final lastRequest = (await _prefs).getString('lastRequest');
 
     if (search == false) {
-      var country = (await _prefs).getString('lang') ?? "en";
+      var country = (await _prefs).getString('lang') ?? 'en';
       country == "en" ? country = "us" : (await _prefs).getString('lang');
       theme != null
           ? response = await get(
@@ -30,6 +34,8 @@ class NewsApiProvider {
       response = await get(
           "https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&language=$lang&apiKey=$_apiKey");
     }
+
+    if (response.statusCode != 200) return getNews(search);
 
     final mapArticles = {};
     ItemModel.fromJson(json.decode(response.body)).articles.forEach((article) {
@@ -47,8 +53,7 @@ class NewsApiProvider {
   getSavedNews() async {
     final uuid = await showMyID();
     final mapSavedArticles = {};
-    var articles =
-        await Firestore.instance.collection("users").document(uuid).get();
+    var articles = await _fireStore.collection("users").document(uuid).get();
     if (articles.data != null) {
       articles.data.values.toList().forEach((value) {
         var article = Article.fromMap(value);
@@ -62,7 +67,7 @@ class NewsApiProvider {
   uploadMyArticle(holder) async {
     final key = holder["url"].replaceAll(RegExp(r"[/.]"), "");
     final uuid = await showMyID();
-    Firestore.instance
+    _fireStore
         .collection("users")
         .document(uuid)
         .setData({key: holder}, merge: true);
@@ -71,7 +76,7 @@ class NewsApiProvider {
   deleteMyArticle(url) async {
     final key = url.replaceAll(RegExp(r"[/.]"), "");
     final uuid = await showMyID();
-    Firestore.instance
+    _fireStore
         .collection("users")
         .document(uuid)
         .updateData({key: FieldValue.delete()});
@@ -84,7 +89,7 @@ class NewsApiProvider {
 
   _saveMyID() async {
     final myid = Uuid().v4();
-    await Firestore.instance.collection("users").document(myid).get();
+    await _fireStore.collection("users").document(myid).get();
     (await _prefs).setString('id', myid);
   }
 }

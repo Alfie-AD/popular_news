@@ -23,7 +23,7 @@ class SearchScreenView extends StatelessWidget {
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: searchWidget,
-              middle: Text("Search"),
+              middle: const Text("Search"),
             ),
             CupertinoSliverRefreshControl(
               onRefresh: () {
