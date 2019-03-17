@@ -13,9 +13,7 @@ class ItemModel {
   }
 
   List<Article> get articles => _articles;
-
 }
-
 
 class Article {
   Map _source;
@@ -38,12 +36,12 @@ class Article {
     DateFormat format = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
     final unformedDate = format.parse(article["publishedAt"]);
     _publishedAt =
-    "${unformedDate.day} ${months[unformedDate.month]} ${unformedDate.year}";
+        "${unformedDate.day} ${months[unformedDate.month - 1]} ${unformedDate.year}";
     _content = article["content"];
   }
 
   Article.fromMap(map) {
-    _source = { "name": map["name"]};
+    _source = {"name": map["name"]};
     _author = "nothing";
     _title = map["title"];
     _description = "nothing";

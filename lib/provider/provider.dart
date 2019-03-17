@@ -7,10 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter/services.dart';
 
 class NewsApiProvider {
-
-  /// ToDo : 28 api cant get data from firebase
   final _prefs = SharedPreferences.getInstance();
   final _fireStore = Firestore.instance;
 
@@ -88,6 +87,9 @@ class NewsApiProvider {
   }
 
   _saveMyID() async {
+    const platform = const MethodChannel('samples.flutter.io/battery');
+    final lang = await platform.invokeMethod('lang');
+    (await _prefs).setString("lang", lang);
     final myid = Uuid().v4();
     await _fireStore.collection("users").document(myid).get();
     (await _prefs).setString('id', myid);

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-class ListItemMutator {
+import 'list_item_state.dart';
 
-  final state;
+class ListItemMutator {
+  final ListItemState state;
   ListItemMutator(this.state);
 
   downloadImage(url) async {
-    if(url != null){
-      state.cashedImage = Image(image: CachedNetworkImageProvider(url)).image;
+    if(state.cashedImage == null){
+      state.cashedImage = Image.network(url).image;
       state.cashedImage.resolve(ImageConfiguration()).addListener((imageInfo, synchronousCall){
         state.imageBroadcaster.add(state.cashedImage);
       });
+    }else{
+      state.imageBroadcaster.add(state.cashedImage);
     }
   }
 }

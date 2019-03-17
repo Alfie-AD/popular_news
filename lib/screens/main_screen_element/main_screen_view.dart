@@ -17,7 +17,6 @@ class MainScreenView extends StatelessWidget {
     return CupertinoTabView(
       builder: (context) {
         return CustomScrollView(
-          /// ios BouncingScrollPhysics()
           physics: const BouncingScrollPhysics(),
           slivers: [
             CupertinoSliverNavigationBar(

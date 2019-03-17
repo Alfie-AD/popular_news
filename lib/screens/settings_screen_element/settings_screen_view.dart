@@ -44,46 +44,39 @@ class SettingsState extends State<SettingsScreenView> {
 
   build(context) {
     return CupertinoTabView(builder: (context) {
-      return CustomScrollView(
-
-          /// ios BouncingScrollPhysics()
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            CupertinoSliverNavigationBar(
-              largeTitle: const Text("Settings"),
-            ),
-            SliverToBoxAdapter(
-              child: _themesWidgets(),
-            ),
-            SliverToBoxAdapter(
-              child: Divider(),
-            ),
-            SliverToBoxAdapter(
-              child: _languageWidgets(),
-            ),
-            SliverToBoxAdapter(
-              child: Divider(),
-            ),
-            SliverToBoxAdapter(
-                child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.0),
-                    child: RaisedButton(
-                        child: Text(
-                          lightTheme ? "to Dark" : "to Light",
-                          style: TextStyle(color: Colors.blueAccent),
-                        ),
-                        onPressed: () async {
-                          (await prefs).setBool("t", !lightTheme);
-                          newsAppState.setState(() {
-                            lightTheme = !lightTheme;
-                            setState(() {});
-                          });
-                        },
-                        color: lightTheme
-                            ? CupertinoColors.darkBackgroundGray
-                            : CupertinoColors.white))),
-            emptyBox
-          ]);
+      return CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
+        CupertinoSliverNavigationBar(
+          largeTitle: const Text("Settings"),
+        ),
+        SliverToBoxAdapter(
+          child: _themesWidgets(),
+        ),
+        SliverToBoxAdapter(
+          child: Divider(),
+        ),
+        SliverToBoxAdapter(
+          child: Divider(),
+        ),
+        SliverToBoxAdapter(
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 18.0),
+                child: RaisedButton(
+                    child: Text(
+                      lightTheme ? "to Dark" : "to Light",
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
+                    onPressed: () async {
+                      (await prefs).setBool("t", !lightTheme);
+                      newsAppState.setState(() {
+                        lightTheme = !lightTheme;
+                        setState(() {});
+                      });
+                    },
+                    color: lightTheme
+                        ? CupertinoColors.darkBackgroundGray
+                        : CupertinoColors.white))),
+        emptyBox
+      ]);
     });
   }
 
@@ -111,30 +104,7 @@ class SettingsState extends State<SettingsScreenView> {
     }).toList());
   }
 
-  _languageWidgets() {
-    return Column(
-        children: settingsLanguage.map((tuple) {
-      return Container(
-        child: RadioListTile(
-          value: tuple.item2,
-          groupValue: selectedLanguage,
-          onChanged: (value) async {
-            selectedLanguage = tuple.item2;
-            (await prefs).setString("lang", value);
-            mainMutator.getNews();
-            setState(() {});
-          },
-          title: Text(
-            tuple.item1,
-            style: TextStyle(color: !lightTheme ? Colors.white : Colors.black),
-          ),
-        ),
-      );
-    }).toList());
-  }
-
   _check() async {
-    selectedLanguage = (await prefs).getString("lang") ?? "en";
     if ((await prefs).getString("theme") != null) {
       selectedTheme = (await prefs).getString("theme")[0].toUpperCase() +
           (await prefs).getString("theme").substring(1);

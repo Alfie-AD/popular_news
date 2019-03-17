@@ -17,11 +17,10 @@ class FavoritesScreenView extends StatelessWidget {
     return CupertinoTabView(
       builder: (context) {
         return CustomScrollView(
-          /// ios BouncingScrollPhysics()
           physics: const BouncingScrollPhysics(),
           slivers: [
-            CupertinoSliverNavigationBar(
-              largeTitle: const Text("Favorites"),
+            const CupertinoSliverNavigationBar(
+              largeTitle:  Text("Favorites"),
             ),
             CupertinoSliverRefreshControl(
               onRefresh: () {
@@ -36,11 +35,11 @@ class FavoritesScreenView extends StatelessWidget {
                   if (snapshot.hasData) {
                     return ListWidget(snapshot.data.values.toList());
                   } else {
-                    return SliverToBoxAdapter(
+                    return const SliverToBoxAdapter(
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: const CupertinoActivityIndicator(),
+                          padding: EdgeInsets.all(16.0),
+                          child: CupertinoActivityIndicator(),
                         ),
                       ),
                     );
