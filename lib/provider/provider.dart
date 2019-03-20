@@ -4,48 +4,48 @@ import 'dart:math';
 import 'package:clean_news_ai/models/Item_model.dart';
 import 'package:clean_news_ai/provider/keys.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter/services.dart';
 
 class NewsApiProvider {
   final _prefs = SharedPreferences.getInstance();
   final _fireStore = Firestore.instance;
 
-  getNews(search) async {
-    await _fireStore.settings(timestampsInSnapshotsEnabled: true);
+  getNews(search, theme) async {
     var response;
     final _apiKey = apikeys[Random().nextInt(4)];
-    final theme = (await _prefs).getString('theme');
     final lastRequest = (await _prefs).getString('lastRequest');
+    var lang = (await _prefs).getString('lang') ?? "en";
+    final mapArticles = {};
 
-    if (search == false) {
-      var country = (await _prefs).getString('lang') ?? 'en';
-      country == "en" ? country = "us" : (await _prefs).getString('lang');
-      theme != null
-          ? response = await get(
-              "https://newsapi.org/v2/top-headlines?country=$country&category=$theme&apiKey=$_apiKey")
-          : response = await get(
-              "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$_apiKey");
-    } else {
-      final lang = (await _prefs).getString('lang') ?? "en";
+    if (search) {
       response = await get(
           "https://newsapi.org/v2/everything?q=$lastRequest&sortBy=relevance&language=$lang&apiKey=$_apiKey");
+    } else {
+      lang == "en" ? lang = "us" : (await _prefs).getString('lang');
+      theme != "mixed"
+          ? response = await get(
+              "https://newsapi.org/v2/top-headlines?country=$lang&category=$theme&apiKey=$_apiKey")
+          : response = await get(
+              "https://newsapi.org/v2/top-headlines?country=$lang&apiKey=$_apiKey");
     }
 
-    if (response.statusCode != 200) return getNews(search);
+    if (response.statusCode != 200) return getNews(search, theme);
 
-    final mapArticles = {};
-    ItemModel.fromJson(json.decode(response.body)).articles.forEach((article) {
-      mapArticles[article.url] = article;
-    });
+    final articles = ItemModel.fromJson(json.decode(response.body)).articles;
+
+    for (Article article in articles) {
+      if(article.urlToImage != null)
+        mapArticles[article.url] = article;
+    }
     final savedArticles = await getSavedNews();
-    savedArticles?.forEach((key, value) {
+    for (String key in savedArticles.keys) {
       if (mapArticles.containsKey(key)) {
         mapArticles[key].liked = true;
       }
-    });
+    }
     return mapArticles;
   }
 
@@ -93,6 +93,14 @@ class NewsApiProvider {
     final myid = Uuid().v4();
     await _fireStore.collection("users").document(myid).get();
     (await _prefs).setString('id', myid);
+  }
+
+  isReadyToUpdate() async {
+    await _fireStore.settings(timestampsInSnapshotsEnabled: true);
+    var newVersionDoc =
+        await _fireStore.collection("appInfo").document("flutterNews").get();
+    int newVersion = newVersionDoc.data.values.toList()[0];
+    return newVersion > 1;
   }
 }
 

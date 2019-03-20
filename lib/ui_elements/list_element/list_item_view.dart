@@ -7,28 +7,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cached_network_image/src/cached_network_image_provider.dart';
 
-class ListItemView extends StatelessWidget {
+class ListItemView extends StatefulWidget {
   final name;
   final url;
   final title;
   final publishedAt;
   final urlToImage;
   final state;
-  final mutator;
 
   ListItemView(this.name, this.url, this.title, this.publishedAt,
-      this.urlToImage, this.state, this.mutator) {
-    mutator.downloadImage(urlToImage);
+      this.urlToImage, this.state);
+
+  createState() => ListItemViewState();
+}
+
+class ListItemViewState extends State<ListItemView>
+    with TickerProviderStateMixin {
+  AnimationController controller;
+  Animation animation;
+
+  initState() {
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
+    animation = Tween(begin: 1.0, end: 0.33).animate(controller);
+    super.initState();
   }
 
   build(context) {
-    return StreamBuilder(
-        stream: state.imageStream,
-        builder: (context, value) {
+    final image = CachedNetworkImageProvider(widget.urlToImage);
+    image.resolve(ImageConfiguration()).addListener((imageInfo, synchronousCall){
+      controller.forward();
+    });
+    return AnimatedBuilder(
+        animation: animation,
+        builder: (context, _) {
           return GestureDetector(
             onTap: () {
-              launch(url);
+              launch(widget.url);
             },
             child: Card(
               color: Colors.transparent,
@@ -36,50 +53,49 @@ class ListItemView extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: value.data ??
-                            state.cashedImage ??
-                            Image.asset('assets/load.png').image,
-                        colorFilter: const ColorFilter.mode(
-                            Colors.black38, BlendMode.hardLight))),
+                        image: image,
+                        colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(animation.value),
+                            BlendMode.hardLight))),
                 child: Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.only(left: 16.0, right: 4.0),
+                      padding: EdgeInsets.only(left: 16.0, right: 4.0),
                       alignment: Alignment.centerRight,
                       child: Row(
                         children: [
                           Expanded(
-                              child: Text(name,
-                                  style: const TextStyle(
-                                      color: CupertinoColors.white))),
+                              child: Text(widget.name,
+                                  style:
+                                      TextStyle(color: CupertinoColors.white))),
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(CupertinoIcons.reply,
+                                icon: Icon(CupertinoIcons.reply,
                                     color: Colors.white),
                                 onPressed: () async {
-                                  Share.share(url);
+                                  Share.share(widget.url);
                                 },
                               ),
                               IconButton(
                                 icon: Icon(
-                                    state.liked
+                                    widget.state.liked
                                         ? CupertinoIcons.bookmark_solid
                                         : CupertinoIcons.bookmark,
-                                    color: Colors.blueAccent),
+                                    color: CupertinoColors.activeGreen),
                                 onPressed: () async {
-                                  state.liked
-                                      ? provider.deleteMyArticle(url)
+                                  widget.state.liked
+                                      ? provider.deleteMyArticle(widget.url)
                                       : provider.uploadMyArticle({
-                                          "name": name,
-                                          "url": url,
-                                          "title": title,
-                                          "publishedAt": publishedAt,
-                                          "urlToImage": urlToImage,
+                                          "name": widget.name,
+                                          "url": widget.url,
+                                          "title": widget.title,
+                                          "publishedAt": widget.publishedAt,
+                                          "urlToImage": widget.urlToImage,
                                         });
                                   favoritesMutator.getNews();
-                                  mainMutator.updateStars(url);
-                                  searchMutator.updateStars(url);
+                                  mainMutator.updateStars(widget.url);
+                                  searchMutator.updateStars(widget.url);
                                 },
                               ),
                             ],
@@ -88,17 +104,17 @@ class ListItemView extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                       alignment: Alignment.centerLeft,
-                      child: Text(title,
-                          style: const TextStyle(
+                      child: Text(widget.title,
+                          style: TextStyle(
                               color: CupertinoColors.white, fontSize: 20)),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.0),
                       alignment: Alignment.centerRight,
-                      child: Text(publishedAt,
-                          style: const TextStyle(
+                      child: Text(widget.publishedAt,
+                          style: TextStyle(
                               color: CupertinoColors.white, fontSize: 16)),
                     ),
                   ],
@@ -107,5 +123,10 @@ class ListItemView extends StatelessWidget {
             ),
           );
         });
+  }
+
+  dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

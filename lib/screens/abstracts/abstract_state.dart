@@ -5,7 +5,4 @@ abstract class AbstractState {
   final broadcaster = StreamController.broadcast();
   get news => broadcaster.stream;
 
-  close() {
-    broadcaster.close();
-  }
 }

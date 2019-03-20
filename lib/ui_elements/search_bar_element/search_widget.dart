@@ -22,9 +22,9 @@ class SearchWidget extends StatelessWidget {
                 fontFamily: "SanFrancisco",
               ),
               prefix: const Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: const Icon(CupertinoIcons.search)),
-              decoration: const BoxDecoration(border: null),
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Icon(CupertinoIcons.search)),
+              decoration: BoxDecoration(border: null),
               clearButtonMode: OverlayVisibilityMode.editing,
               onSubmitted: (value) async {
                 final prefs = await SharedPreferences.getInstance();
